@@ -13,7 +13,7 @@ proc b64Str*(msg:string): string =
 proc unb64str*(msg:string): string = 
   result = decode(msg)
 
-proc serEncObj*(encObj:object): string = 
+proc serEncObj*(encObj:EncObj): string = 
   result = toFlatty(encObj)
 
 proc desEncObj*(serEncObj:string): EncObj = 
