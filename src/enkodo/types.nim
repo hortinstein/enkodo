@@ -13,11 +13,3 @@ type
     mac*:       Mac
     cipherLen*:  int
     cipherText*: seq[byte]
-
-type
-  StaticConfig* = ref object
-    buildID*: string      #generated on build
-    deploymentID*: string #generated on deployment
-    killEpoch*: int32  #what point should the agent stop calling back and delete
-    interval*: int32   #how often should the agent call back
-    callback*: string  #where the C2 is 
