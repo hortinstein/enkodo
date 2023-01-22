@@ -74,7 +74,7 @@ deno bench #runs the benchmark
 ```
 
 ### Planned compatibility
-- Rust
+- Rust: https://stackoverflow.com/questions/59879692/how-to-call-a-nim-function-from-rust-through-c-ffi
 - Go
 - Zig
 - C
