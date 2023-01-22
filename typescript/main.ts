@@ -1,5 +1,10 @@
 import * as mod from "https://deno.land/std@0.166.0/crypto/mod.ts";
 
+// import the nim generated code
+import { createRequire } from "https://deno.land/std@0.103.0/node/module.ts";
+const require = createRequire(import.meta.url);
+const serialize = require("./serialize.js");
+
 import {
   crypto_blake2b,
   crypto_key_exchange,
@@ -29,7 +34,7 @@ export function enc(
   privateKey: Uint8Array,
   publicKey: Uint8Array,
   data: Uint8Array
-): [Uint8Array, Uint8Array, Uint8Array, Uint8Array] {
+): any {
   const sharedKey = crypto_key_exchange(privateKey, publicKey);
   // console.log(data);
   const nonce = randomBytes(NONCE_LEN);
@@ -38,21 +43,22 @@ export function enc(
   const [mac, cipher] = splitMAC(maccipher);
   // console.log(mac, cipher);
   const myPubKey = crypto_key_exchange_public_key(privateKey);
-  return [myPubKey, nonce, mac, cipher];
+  return serialize.returnEncObj(myPubKey, nonce, mac, cipher.length, cipher);
 }
 
 //decryption helper function that mirrors the nim functionality
 export function dec(
   privateKey: Uint8Array,
-  publicKey: Uint8Array,
-  nonce: Uint8Array,
-  mac: Uint8Array,
-  cipher: Uint8Array
+  encObj: any,
 ): Uint8Array | null {
-  const sharedKey = crypto_key_exchange(privateKey, publicKey);
+  const sharedKey = crypto_key_exchange(privateKey, encObj.publicKey);
+
+  const mac = new Uint8Array(encObj.mac);
+  const cipher = new Uint8Array(encObj.cipherText);
+
   const maccipher = new Uint8Array([...mac, ...cipher]);
-  // console.log(maccipher);
-  const plain = crypto_unlock(sharedKey, nonce, maccipher);
+  console.log(maccipher);
+  const plain = crypto_unlock(sharedKey, encObj.nonce, maccipher);
   return plain;
 }
 

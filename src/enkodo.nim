@@ -14,10 +14,10 @@ proc toString*(bytes: seq[byte]): string =
 #[
   encrypts a message and returns a structure ready to be serialized and sent
 ]#
-proc enc*( privateKey: Key, publicKey: Key, plaintext: seq[byte]): EncObj =
+proc enc*( privateKey:  monocypher.Key, publicKey:  monocypher.Key, plaintext: seq[byte]): EncObj =
   #derive the shared key and material needed to encrypt
   let sharedKey = crypto_key_exchange(privateKey, publicKey)
-  let nonce = getRandomBytes(sizeof(Nonce))
+  let nonce = getRandomBytes(sizeof(monocypher.Nonce))
   #perform encryption
   let (mac, ciphertext) = crypto_lock(sharedKey, nonce, plaintext)
   #create the return object
@@ -30,7 +30,7 @@ proc enc*( privateKey: Key, publicKey: Key, plaintext: seq[byte]): EncObj =
 #[
   decrypts a message and returns a byte array
 ]#
-proc dec*( privateKey: Key, encObj: EncObj): seq[byte] =
+proc dec*( privateKey: monocypher.Key, encObj: EncObj): seq[byte] =
   #derive the shared key 
   let sharedKey = crypto_key_exchange(privateKey, encObj.publicKey)
   #perform decryption
@@ -39,7 +39,7 @@ proc dec*( privateKey: Key, encObj: EncObj): seq[byte] =
                           encObj.mac, 
                           encObj.ciphertext)
 
-proc generateKeyPair*(): (Key, Key) =
-  let privateKey = getRandomBytes(sizeof(Key))
+proc generateKeyPair*(): (monocypher.Key, monocypher.Key) =
+  let privateKey = getRandomBytes(sizeof(monocypher.Key))
   let publicKey = crypto_key_exchange_public_key(privateKey)
   return (privateKey, publicKey)

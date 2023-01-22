@@ -11,22 +11,9 @@ export function encrypt_decrypt() {
   const [priv, pub] = generateKeyPair();
   const [priv2, pub2] = generateKeyPair();
 
-  const [pub3, nonce, mac, cipher] = enc(priv, pub2, hello_world);
-
-  const plain = dec(priv2, pub, nonce, mac, cipher);
-
-  assertEquals(hello_world, plain);
-}
-
-function encserdesdec() {
-  const hello_world = new TextEncoder().encode("Hello World");
-  const [priv, pub] = generateKeyPair();
-  const [priv2, pub2] = generateKeyPair();
-
-  const [pub3, nonce, mac, cipher] = enc(priv, pub2, hello_world);
-
-  const plain = dec(priv2, pub, nonce, mac, cipher);
-
+  const enc_test = enc(priv, pub2, hello_world);
+  console.log(enc_test);
+  const plain = dec(priv2, enc_test);
   assertEquals(hello_world, plain);
 }
 
