@@ -1,7 +1,5 @@
 import monocypher
 import sysrandom
-import flatty
-import std/base64
 import enkodo/types
 
 #[

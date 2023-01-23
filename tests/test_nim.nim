@@ -28,7 +28,7 @@ test "testing that messages fail on bad keys":
     let decObj = dec(getRandomBytes(sizeof(Key)),encObj)
     doAssert(plaintext == decObj)
   except IOError:
-    echo "failed the decryption test"
+    echo "failed the decryption test [caught the error]"
   
 test "testing enc, serialize, deserialize, dec":
   let encObj = enc(a_secretKey,b_publicKey,plaintext)
@@ -46,6 +46,13 @@ test "testing base64,enc, serialize, deserialize, dec, unbase64":
   let ptext = dec(b_secretKey,deSerEncObj)
   doAssert(plaintext == ptext)
 
+test "testing wrap,unwrap":
+  let encObj = enc(a_secretKey,b_publicKey,plaintext)
+  let wrapped = wrap(encObj)
+  let unwrapped = unwrap(wrapped)
+  let ptext = dec(b_secretKey,unwrapped)
+  doAssert(plaintext == ptext)
+  
 # test "testing enc on a blank message":
 #   let encObj = encObj(a_secretKey,b_publicKey,'')
 

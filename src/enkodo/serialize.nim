@@ -30,9 +30,21 @@ proc serEncObj*(encObj:EncObj): string =
 proc desEncObj*(serEncObj:string): EncObj = 
   result = serEncObj.fromFlatty(EncObj)
 
+proc wrap*(encObj: EncObj): string = 
+  var serEncObj = serEncObj(encObj)
+  var b64SerEncObj = b64Str(serEncObj)
+  return b64SerEncObj
+
+proc unwrap*(b64SerEncObj:string): EncObj =
+  var serEncObj = unb64str(b64SerEncObj)
+  var encObj = desEncObj(serEncObj)
+  return encObj
+
 when defined(js):
   module.exports.returnEncObj = returnEncObj
   module.exports.serEncObj = serEncObj
   module.exports.desEncObj = desEncObj
   module.exports.b64Str = b64Str
   module.exports.unb64Str = unb64Str
+  module.exports.wrap = wrap
+  module.exports.unwrap = unwrap

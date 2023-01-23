@@ -57,7 +57,7 @@ export function dec(
   const cipher = new Uint8Array(encObj.cipherText);
 
   const maccipher = new Uint8Array([...mac, ...cipher]);
-  console.log(maccipher);
+  // console.log(maccipher);
   const plain = crypto_unlock(sharedKey, encObj.nonce, maccipher);
   return plain;
 }
@@ -66,4 +66,12 @@ export function generateKeyPair(): [Uint8Array, Uint8Array] {
   const privateKey = randomBytes(KEY_LEN);
   const publicKey = crypto_key_exchange_public_key(privateKey);
   return [privateKey, publicKey];
+}
+
+export function wrap(obj: any): string {
+  return serialize.wrap(obj);
+}
+
+export function unwrap(wrappedObj: string): any {
+  return serialize.unwrap(wrappedObj);
 }
