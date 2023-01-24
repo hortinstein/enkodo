@@ -9,7 +9,7 @@ srcDir        = "src"
 
 # Dependencies
 
-requires "nim >= 1.6.10"
+requires "nim >= 1.0.00"
 
 requires "flatty"
 requires "monocypher"
