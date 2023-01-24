@@ -19,3 +19,4 @@ requires "monocypher"
 
 task buildjs, "Build the package":
   exec "nim js -d:nodejs --out:typescript/serialize.js -r src/enkodo/serialize.nim"
+  exec "deno bundle typescript/main.ts > typescript/mod.ts"

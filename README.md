@@ -45,7 +45,13 @@ doAssert(plaintext == ptext)
 Below is a simple nim example of encypting, serializing and base64ing
 
 ``` typescript
-import { enc, dec, generateKeyPair } from "./main.ts";
+import {
+  enc,
+  dec,
+  generateKeyPair,
+  unwrap,
+  wrap
+} from "https://deno.land/x/enkodo@v0.1.0/typescript/mod.ts";
 
 const hello_world = new TextEncoder().encode("Hello World");
 const [priv, pub] = generateKeyPair();
