@@ -57912,9 +57912,17 @@ function wrap(obj) {
 function unwrap(wrappedObj) {
     return serialize.unwrap(wrappedObj);
 }
+function wrapKey(obj) {
+    return serialize.wrapKey(obj);
+}
+function unwrapKey(wrappedObj) {
+    return serialize.unwrapKey(wrappedObj);
+}
 export { enc as enc };
 export { dec as dec };
 export { generateKeyPair as generateKeyPair };
 export { wrap as wrap };
 export { unwrap as unwrap };
+export { wrapKey as wrapKey };
+export { unwrapKey as unwrapKey };
 

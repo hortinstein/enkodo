@@ -68,10 +68,18 @@ export function generateKeyPair(): [Uint8Array, Uint8Array] {
   return [privateKey, publicKey];
 }
 
-export function wrap(obj: any): string {
+export function wrap(obj: any): any {
   return serialize.wrap(obj);
 }
 
-export function unwrap(wrappedObj: string): any {
+export function unwrap(wrappedObj: any): any {
   return serialize.unwrap(wrappedObj);
+}
+
+export function wrapKey(obj: any): any {
+  return serialize.wrapKey(obj);
+}
+
+export function unwrapKey(wrappedObj: any): any {
+  return serialize.unwrapKey(wrappedObj);
 }

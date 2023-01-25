@@ -40,6 +40,15 @@ proc unwrap*(b64SerEncObj:string): EncObj =
   var encObj = desEncObj(serEncObj)
   return encObj
 
+proc wrapKey*(key: Key): string = 
+  let serKey = toFlatty(key)
+  var b64Key = b64Str(serKey)
+  return b64Key
+
+proc unwrapKey*(wrappedKey: string): Key = 
+  let serKey = unb64str(wrappedKey)
+  return serKey.fromFlatty(Key)
+
 when defined(js):
   module.exports.returnEncObj = returnEncObj
   module.exports.serEncObj = serEncObj
@@ -48,3 +57,5 @@ when defined(js):
   module.exports.unb64Str = unb64Str
   module.exports.wrap = wrap
   module.exports.unwrap = unwrap
+  module.exports.wrapKey = wrapKey
+  module.exports.unwrapKey = unwrapKey

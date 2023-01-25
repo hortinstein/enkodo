@@ -1,17 +1,18 @@
-# This is just an example to get you started. You may wish to put all of your
-# tests into a single file, or separate them into multiple `test1`, `test2`
-# etc. files (better names are recommended, just make sure the name starts with
-# the letter 't').
-#
-# To run these tests, simply execute `nimble test`.
-
 import unittest
-
+import os
 import sysrandom
+import std/base64
+
+import flatty
 
 import enkodo
 import enkodo/types
 import enkodo/serialize
+
+proc writeStringToFile*(fileName: string, contents: string) =
+  let f = open(filename, fmWrite)
+  f.write(contents)
+  defer: f.close()
 
 let (a_secretKey, a_publicKey) = generateKeyPair()
 let (b_secretKey, b_publicKey) = generateKeyPair()
@@ -52,8 +53,16 @@ test "testing wrap,unwrap":
   let unwrapped = unwrap(wrapped)
   let ptext = dec(b_secretKey,unwrapped)
   doAssert(plaintext == ptext)
+
+test "outputting test file for JS to read and decrypt":
+  let encObj = enc(a_secretKey,b_publicKey,plaintext)
   
-# test "testing enc on a blank message":
+  let b64Str = wrap(encObj)
+
+  writeStringToFile("TESTFILE_TYPESCRIPT_ENC_BIN", b64Str)
+  
+  writeStringToFile("TESTFILE_TYPESCRIPT_PRIVKEY", wrapKey(b_secretKey))
+#  test "testing enc on a blank message":
 #   let encObj = encObj(a_secretKey,b_publicKey,'')
 
 # test "testing dec with wrong keys":
