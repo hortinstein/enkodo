@@ -51,7 +51,7 @@ import {
   generateKeyPair,
   unwrap,
   wrap
-} from "https://deno.land/x/enkodo@v0.1.2/typescript/mod.ts";
+} from "https://deno.land/x/enkodo@v0.1.5/typescript/mod.ts";
 
 const hello_world = new TextEncoder().encode("Hello World");
 const [priv, pub] = generateKeyPair();

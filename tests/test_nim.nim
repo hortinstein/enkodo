@@ -6,8 +6,6 @@ import std/base64
 import flatty
 
 import enkodo
-import enkodo/types
-import enkodo/serialize
 
 proc writeStringToFile*(fileName: string, contents: string) =
   let f = open(filename, fmWrite)

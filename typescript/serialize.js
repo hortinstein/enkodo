@@ -18,25 +18,25 @@ var NTI33555112 = {size: 0, kind: 17, base: null, node: null, finalizer: null};
 var NTI33555113 = {size: 0, kind: 17, base: null, node: null, finalizer: null};
 var NTI33555120 = {size: 0, kind: 17, base: null, node: null, finalizer: null};
 var NTI33555122 = {size: 0, kind: 17, base: null, node: null, finalizer: null};
-var NTI587202599 = {size: 0, kind: 24, base: null, node: null, finalizer: null};
+var NTI436207655 = {size: 0, kind: 24, base: null, node: null, finalizer: null};
 var NTI33554456 = {size: 0,kind: 31,base: null,node: null,finalizer: null};
-var NTI587202598 = {size: 0, kind: 18, base: null, node: null, finalizer: null};
-var NTI436207620 = {size: 0, kind: 24, base: null, node: null, finalizer: null};
-var NTI587202566 = {size: 0, kind: 16, base: null, node: null, finalizer: null};
-var NTI587202565 = {size: 0, kind: 16, base: null, node: null, finalizer: null};
+var NTI436207654 = {size: 0, kind: 18, base: null, node: null, finalizer: null};
+var NTI436207657 = {size: 0, kind: 24, base: null, node: null, finalizer: null};
+var NTI436207622 = {size: 0, kind: 16, base: null, node: null, finalizer: null};
+var NTI436207621 = {size: 0, kind: 16, base: null, node: null, finalizer: null};
 var NTI33555080 = {size: 0,kind: 41,base: null,node: null,finalizer: null};
-var NTI587202564 = {size: 0, kind: 16, base: null, node: null, finalizer: null};
-NTI587202564.base = NTI33555080;
-NTI587202565.base = NTI33555080;
-NTI587202566.base = NTI33555080;
+var NTI436207620 = {size: 0, kind: 16, base: null, node: null, finalizer: null};
 NTI436207620.base = NTI33555080;
-NTI587202599.base = NTI33555080;
-var NNI587202598 = {kind: 2, len: 5, offset: 0, typ: null, name: null, sons: [{kind: 1, offset: "publicKey", len: 0, typ: NTI587202564, name: "publicKey", sons: null}, 
-{kind: 1, offset: "nonce", len: 0, typ: NTI587202565, name: "nonce", sons: null}, 
-{kind: 1, offset: "mac", len: 0, typ: NTI587202566, name: "mac", sons: null}, 
+NTI436207621.base = NTI33555080;
+NTI436207622.base = NTI33555080;
+NTI436207657.base = NTI33555080;
+NTI436207655.base = NTI33555080;
+var NNI436207654 = {kind: 2, len: 5, offset: 0, typ: null, name: null, sons: [{kind: 1, offset: "publicKey", len: 0, typ: NTI436207620, name: "publicKey", sons: null}, 
+{kind: 1, offset: "nonce", len: 0, typ: NTI436207621, name: "nonce", sons: null}, 
+{kind: 1, offset: "mac", len: 0, typ: NTI436207622, name: "mac", sons: null}, 
 {kind: 1, offset: "cipherLen", len: 0, typ: NTI33554456, name: "cipherLen", sons: null}, 
-{kind: 1, offset: "cipherText", len: 0, typ: NTI587202599, name: "cipherText", sons: null}]};
-NTI587202598.node = NNI587202598;
+{kind: 1, offset: "cipherText", len: 0, typ: NTI436207655, name: "cipherText", sons: null}]};
+NTI436207654.node = NNI436207654;
 var NNI33555122 = {kind: 2, len: 0, offset: 0, typ: null, name: null, sons: []};
 NTI33555122.node = NNI33555122;
 var NNI33555120 = {kind: 2, len: 0, offset: 0, typ: null, name: null, sons: []};
@@ -471,18 +471,6 @@ var F = {procname: "module base64", prev: framePtr, filename: "/home/hortinstein
 framePtr = F;
 framePtr = F.prev;
 var F = {procname: "module base64", prev: framePtr, filename: "/home/hortinstein/.choosenim/toolchains/nim-1.6.10/lib/pure/base64.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module serialize", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/serialize.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module types", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/types.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module types", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/types.nim", line: 0};
-framePtr = F;
-framePtr = F.prev;
-var F = {procname: "module types", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/types.nim", line: 0};
 framePtr = F;
 framePtr = F.prev;
 var F = {procname: "module serialize", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/serialize.nim", line: 0};
@@ -1439,7 +1427,7 @@ framePtr = F.prev;
 var F = {procname: "module hashes", prev: framePtr, filename: "/home/hortinstein/.choosenim/toolchains/nim-1.6.10/lib/pure/hashes.nim", line: 0};
 framePtr = F;
 F.line = 214;
-var objectID_687866018 = [0];
+var objectID_671088802 = [0];
 framePtr = F.prev;
 var F = {procname: "module hashes", prev: framePtr, filename: "/home/hortinstein/.choosenim/toolchains/nim-1.6.10/lib/pure/hashes.nim", line: 0};
 framePtr = F;
@@ -3146,6 +3134,18 @@ var F = {procname: "module flatty", prev: framePtr, filename: "/home/hortinstein
 framePtr = F;
 framePtr = F.prev;
 var F = {procname: "module flatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
+framePtr = F;
+framePtr = F.prev;
+var F = {procname: "module serialize", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/serialize.nim", line: 0};
+framePtr = F;
+framePtr = F.prev;
+var F = {procname: "module types", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/types.nim", line: 0};
+framePtr = F;
+framePtr = F.prev;
+var F = {procname: "module types", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/types.nim", line: 0};
+framePtr = F;
+framePtr = F.prev;
+var F = {procname: "module types", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/types.nim", line: 0};
 framePtr = F;
 framePtr = F.prev;
 var F = {procname: "module serialize", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/serialize.nim", line: 0};
@@ -3438,19 +3438,19 @@ function nimCopyAux(dest_33557144, src_33557145, n_33557146) {
   
 }
 
-function returnEncObj_436207622(publicKey_436207623, nonce_436207624, mac_436207625, cipherLen_436207626, cipherText_436207627) {
-  var result_436207628 = ({publicKey: new Uint8Array(32), nonce: new Uint8Array(24), mac: new Uint8Array(16), cipherLen: 0, cipherText: []});
+function returnEncObj_436207633(publicKey_436207634, nonce_436207635, mac_436207636, cipherLen_436207637, cipherText_436207638) {
+  var result_436207639 = ({publicKey: new Uint8Array(32), nonce: new Uint8Array(24), mac: new Uint8Array(16), cipherLen: 0, cipherText: []});
 
   var F = {procname: "serialize.returnEncObj", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/serialize.nim", line: 0};
   framePtr = F;
   BeforeRet: do {
-    F.line = 15;
-    result_436207628 = nimCopy(result_436207628, {publicKey: nimCopy(null, publicKey_436207623, NTI587202564), nonce: nimCopy(null, nonce_436207624, NTI587202565), mac: nimCopy(null, mac_436207625, NTI587202566), cipherLen: cipherLen_436207626, cipherText: nimCopy(null, cipherText_436207627, NTI436207620)}, NTI587202598);
+    F.line = 32;
+    result_436207639 = nimCopy(result_436207639, {publicKey: nimCopy(null, publicKey_436207634, NTI436207620), nonce: nimCopy(null, nonce_436207635, NTI436207621), mac: nimCopy(null, mac_436207636, NTI436207622), cipherLen: cipherLen_436207637, cipherText: nimCopy(null, cipherText_436207638, NTI436207657)}, NTI436207654);
     break BeforeRet;
   } while (false);
   framePtr = F.prev;
 
-  return result_436207628;
+  return result_436207639;
 
 }
 
@@ -3502,13 +3502,13 @@ function auxWriteStackTrace_33556559(f_33556560) {
     
     Label6: do {
       var j_33556602 = 0;
-      var colontmp__436208488 = 0;
-      colontmp__436208488 = (i_33556570 - 1);
-      var res_436208490 = colontmp__436208488;
+      var colontmp__436208499 = 0;
+      colontmp__436208499 = (i_33556570 - 1);
+      var res_436208501 = colontmp__436208499;
       Label7: do {
           Label8: while (true) {
-          if (!(0 <= res_436208490)) break Label8;
-            j_33556602 = res_436208490;
+          if (!(0 <= res_436208501)) break Label8;
+            j_33556602 = res_436208501;
             result_33556561[0].push.apply(result_33556561[0], cstrToNimstr(tempFrames_33556572[j_33556602].Field2));;
             if ((0 < tempFrames_33556572[j_33556602].Field1)) {
             result_33556561[0].push.apply(result_33556561[0], makeNimstrLit("("));;
@@ -3524,7 +3524,7 @@ function auxWriteStackTrace_33556559(f_33556560) {
             result_33556561[0].push.apply(result_33556561[0], makeNimstrLit(" at "));;
             add_33556419(result_33556561, 0, tempFrames_33556572[j_33556602].Field0);
             result_33556561[0].push.apply(result_33556561[0], makeNimstrLit("\x0A"));;
-            res_436208490 -= 1;
+            res_436208501 -= 1;
           }
       } while (false);
     } while (false);
@@ -3617,17 +3617,17 @@ function addChars_251658415(result_251658417, result_251658417_Idx, x_251658418,
       F.line = 46;
       var iHEX60gensym4_251658435 = 0;
       F.line = 119;
-      var i_436208483 = 0;
+      var i_436208494 = 0;
       Label2: do {
         F.line = 120;
           Label3: while (true) {
-          if (!(i_436208483 < n_251658420)) break Label3;
+          if (!(i_436208494 < n_251658420)) break Label3;
             F.line = 49;
-            iHEX60gensym4_251658435 = i_436208483;
+            iHEX60gensym4_251658435 = i_436208494;
             F.line = 49;
             result_251658417[result_251658417_Idx][chckIndx(addInt(old_251658421, iHEX60gensym4_251658435), 0, (result_251658417[result_251658417_Idx]).length - 1)] = x_251658418.charCodeAt(chckIndx(addInt(start_251658419, iHEX60gensym4_251658435), 0, (x_251658418).length - 1));
             F.line = 122;
-            i_436208483 = addInt(i_436208483, 1);
+            i_436208494 = addInt(i_436208494, 1);
           }
       } while (false);
     } while (false);
@@ -3694,49 +3694,49 @@ function raiseIndexError(i_33556754, a_33556755, b_33556756) {
   
 }
 
-function addUint8_603979880(s_603979882, s_603979882_Idx, v_603979883) {
+function addUint8_587202664(s_587202666, s_587202666_Idx, v_587202667) {
   var F = {procname: "addUint8.addUint8", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty/jsbinny.nim", line: 0};
   framePtr = F;
     F.line = 10;
-    addChar(s_603979882[s_603979882_Idx], v_603979883);;
+    addChar(s_587202666[s_587202666_Idx], v_587202667);;
   framePtr = F.prev;
 
   
 }
 
-function toFlatty_603979916(s_603979917, s_603979917_Idx, x_603979918) {
+function toFlatty_587202700(s_587202701, s_587202701_Idx, x_587202702) {
   var F = {procname: "flatty.toFlatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
   framePtr = F;
     F.line = 50;
-    addUint8_603979880(s_603979917, s_603979917_Idx, x_603979918);
+    addUint8_587202664(s_587202701, s_587202701_Idx, x_587202702);
   framePtr = F.prev;
 
   
 }
 
-function toFlatty_436207719(s_436207722, s_436207722_Idx, x_436207723) {
+function toFlatty_436207730(s_436207733, s_436207733_Idx, x_436207734) {
   var F = {procname: "toFlatty.toFlatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
   framePtr = F;
     Label1: do {
       F.line = 227;
-      var e_436207752 = 0;
+      var e_436207763 = 0;
       F.line = 33;
-      var i_436208477 = 0;
+      var i_436208488 = 0;
       Label2: do {
         F.line = 34;
           Label3: while (true) {
           if (!true) break Label3;
             F.line = 227;
-            e_436207752 = x_436207723[chckIndx(i_436208477, 0, (x_436207723).length - 1)];
+            e_436207763 = x_436207734[chckIndx(i_436208488, 0, (x_436207734).length - 1)];
             F.line = 227;
-            toFlatty_603979916(s_436207722, s_436207722_Idx, e_436207752);
-            if ((31 <= i_436208477)) {
+            toFlatty_587202700(s_436207733, s_436207733_Idx, e_436207763);
+            if ((31 <= i_436208488)) {
             F.line = 36;
             break Label2;
             }
             
             F.line = 37;
-            i_436208477 = addInt(i_436208477, 1);
+            i_436208488 = addInt(i_436208488, 1);
           }
       } while (false);
     } while (false);
@@ -3745,29 +3745,29 @@ function toFlatty_436207719(s_436207722, s_436207722_Idx, x_436207723) {
   
 }
 
-function toFlatty_436207784(s_436207787, s_436207787_Idx, x_436207788) {
+function toFlatty_436207795(s_436207798, s_436207798_Idx, x_436207799) {
   var F = {procname: "toFlatty.toFlatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
   framePtr = F;
     Label1: do {
       F.line = 227;
-      var e_436207817 = 0;
+      var e_436207828 = 0;
       F.line = 33;
-      var i_436208496 = 0;
+      var i_436208507 = 0;
       Label2: do {
         F.line = 34;
           Label3: while (true) {
           if (!true) break Label3;
             F.line = 227;
-            e_436207817 = x_436207788[chckIndx(i_436208496, 0, (x_436207788).length - 1)];
+            e_436207828 = x_436207799[chckIndx(i_436208507, 0, (x_436207799).length - 1)];
             F.line = 227;
-            toFlatty_603979916(s_436207787, s_436207787_Idx, e_436207817);
-            if ((23 <= i_436208496)) {
+            toFlatty_587202700(s_436207798, s_436207798_Idx, e_436207828);
+            if ((23 <= i_436208507)) {
             F.line = 36;
             break Label2;
             }
             
             F.line = 37;
-            i_436208496 = addInt(i_436208496, 1);
+            i_436208507 = addInt(i_436208507, 1);
           }
       } while (false);
     } while (false);
@@ -3776,29 +3776,29 @@ function toFlatty_436207784(s_436207787, s_436207787_Idx, x_436207788) {
   
 }
 
-function toFlatty_436207849(s_436207852, s_436207852_Idx, x_436207853) {
+function toFlatty_436207860(s_436207863, s_436207863_Idx, x_436207864) {
   var F = {procname: "toFlatty.toFlatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
   framePtr = F;
     Label1: do {
       F.line = 227;
-      var e_436207882 = 0;
+      var e_436207893 = 0;
       F.line = 33;
-      var i_436208500 = 0;
+      var i_436208511 = 0;
       Label2: do {
         F.line = 34;
           Label3: while (true) {
           if (!true) break Label3;
             F.line = 227;
-            e_436207882 = x_436207853[chckIndx(i_436208500, 0, (x_436207853).length - 1)];
+            e_436207893 = x_436207864[chckIndx(i_436208511, 0, (x_436207864).length - 1)];
             F.line = 227;
-            toFlatty_603979916(s_436207852, s_436207852_Idx, e_436207882);
-            if ((15 <= i_436208500)) {
+            toFlatty_587202700(s_436207863, s_436207863_Idx, e_436207893);
+            if ((15 <= i_436208511)) {
             F.line = 36;
             break Label2;
             }
             
             F.line = 37;
-            i_436208500 = addInt(i_436208500, 1);
+            i_436208511 = addInt(i_436208511, 1);
           }
       } while (false);
     } while (false);
@@ -3807,15 +3807,15 @@ function toFlatty_436207849(s_436207852, s_436207852_Idx, x_436207853) {
   
 }
 
-function addInt64_603980004(s_603980006, s_603980006_Idx, v_603980007) {
+function addInt64_587202788(s_587202790, s_587202790_Idx, v_587202791) {
   var F = {procname: "addInt64.addInt64", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty/jsbinny.nim", line: 0};
   framePtr = F;
     F.line = 144;
         var uint64Array = new BigInt64Array(1);
-    uint64Array[0] = BigInt(v_603980007);
+    uint64Array[0] = BigInt(v_587202791);
     var uintArray = new Uint8Array(uint64Array.buffer);
     for(j = 0; j < 8; j++){
-      s_603980006[s_603980006_Idx].push(uintArray[j]);
+      s_587202790[s_587202790_Idx].push(uintArray[j]);
     }
   
   framePtr = F.prev;
@@ -3823,11 +3823,11 @@ function addInt64_603980004(s_603980006, s_603980006_Idx, v_603980007) {
   
 }
 
-function toFlatty_603980001(s_603980002, s_603980002_Idx, x_603980003) {
+function toFlatty_587202785(s_587202786, s_587202786_Idx, x_587202787) {
   var F = {procname: "flatty.toFlatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
   framePtr = F;
     F.line = 57;
-    addInt64_603980004(s_603980002, s_603980002_Idx, x_603980003);
+    addInt64_587202788(s_587202786, s_587202786_Idx, x_587202787);
   framePtr = F.prev;
 
   
@@ -3863,29 +3863,29 @@ function failedAssertImpl_218103864(msg_218103865) {
   
 }
 
-function toFlatty_436207883(s_436207885, s_436207885_Idx, x_436207886) {
+function toFlatty_436207894(s_436207896, s_436207896_Idx, x_436207897) {
   var F = {procname: "toFlatty.toFlatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
   framePtr = F;
     F.line = 126;
-    addInt64_603980004(s_436207885, s_436207885_Idx, (x_436207886).length);
+    addInt64_587202788(s_436207896, s_436207896_Idx, (x_436207897).length);
     Label1: do {
       F.line = 135;
-      var e_436207917 = 0;
+      var e_436207928 = 0;
       F.line = 235;
-      var i_436208504 = 0;
+      var i_436208515 = 0;
       F.line = 236;
-      var L_436208505 = (x_436207886).length;
+      var L_436208516 = (x_436207897).length;
       Label2: do {
         F.line = 237;
           Label3: while (true) {
-          if (!(i_436208504 < L_436208505)) break Label3;
+          if (!(i_436208515 < L_436208516)) break Label3;
             F.line = 135;
-            e_436207917 = x_436207886[chckIndx(i_436208504, 0, (x_436207886).length - 1)];
+            e_436207928 = x_436207897[chckIndx(i_436208515, 0, (x_436207897).length - 1)];
             F.line = 135;
-            toFlatty_603979916(s_436207885, s_436207885_Idx, e_436207917);
+            toFlatty_587202700(s_436207896, s_436207896_Idx, e_436207928);
             F.line = 239;
-            i_436208504 = addInt(i_436208504, 1);
-            if (!(((x_436207886).length == L_436208505))) {
+            i_436208515 = addInt(i_436208515, 1);
+            if (!(((x_436207897).length == L_436208516))) {
             F.line = 240;
             failedAssertImpl_218103864(makeNimstrLit("/home/hortinstein/.choosenim/toolchains/nim-1.6.10/lib/system/iterators.nim(240, 11) `len(a) == L` the length of the seq changed while iterating over it"));
             }
@@ -3898,99 +3898,99 @@ function toFlatty_436207883(s_436207885, s_436207885_Idx, x_436207886) {
   
 }
 
-function toFlatty_436207669(s_436207671, s_436207671_Idx, x_436207672) {
+function toFlatty_436207680(s_436207682, s_436207682_Idx, x_436207683) {
   var F = {procname: "toFlatty.toFlatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
   framePtr = F;
     F.line = 159;
-    toFlatty_436207719(s_436207671, s_436207671_Idx, x_436207672.publicKey);
+    toFlatty_436207730(s_436207682, s_436207682_Idx, x_436207683.publicKey);
     F.line = 159;
-    toFlatty_436207784(s_436207671, s_436207671_Idx, x_436207672.nonce);
+    toFlatty_436207795(s_436207682, s_436207682_Idx, x_436207683.nonce);
     F.line = 159;
-    toFlatty_436207849(s_436207671, s_436207671_Idx, x_436207672.mac);
+    toFlatty_436207860(s_436207682, s_436207682_Idx, x_436207683.mac);
     F.line = 159;
-    toFlatty_603980001(s_436207671, s_436207671_Idx, x_436207672.cipherLen);
+    toFlatty_587202785(s_436207682, s_436207682_Idx, x_436207683.cipherLen);
     F.line = 159;
-    toFlatty_436207883(s_436207671, s_436207671_Idx, x_436207672.cipherText);
+    toFlatty_436207894(s_436207682, s_436207682_Idx, x_436207683.cipherText);
   framePtr = F.prev;
 
   
 }
 
-function toFlatty_436207665(x_436207667) {
-  var result_436207668 = [[]];
+function toFlatty_436207676(x_436207678) {
+  var result_436207679 = [[]];
 
   var F = {procname: "toFlatty.toFlatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
   framePtr = F;
     F.line = 286;
-    toFlatty_436207669(result_436207668, 0, x_436207667);
+    toFlatty_436207680(result_436207679, 0, x_436207678);
   framePtr = F.prev;
 
-  return result_436207668[0];
+  return result_436207679[0];
 
 }
 
-function serEncObj_436207662(encObj_436207663) {
-  var result_436207664 = [];
+function serEncObj_436207673(encObj_436207674) {
+  var result_436207675 = [];
 
   var F = {procname: "serialize.serEncObj", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/serialize.nim", line: 0};
   framePtr = F;
-    F.line = 28;
-    result_436207664 = nimCopy(null, toFlatty_436207665(encObj_436207663), NTI33554439);
+    F.line = 45;
+    result_436207675 = nimCopy(null, toFlatty_436207676(encObj_436207674), NTI33554439);
   framePtr = F.prev;
 
-  return result_436207664;
+  return result_436207675;
 
 }
 
-function readUint8_603979888(s_603979890, i_603979891) {
-  var result_603979892 = 0;
+function readUint8_587202672(s_587202674, i_587202675) {
+  var result_587202676 = 0;
 
   var F = {procname: "readUint8.readUint8", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty/jsbinny.nim", line: 0};
   framePtr = F;
     F.line = 4;
-    result_603979892 = s_603979890[chckIndx(i_603979891, 0, (s_603979890).length - 1)];
+    result_587202676 = s_587202674[chckIndx(i_587202675, 0, (s_587202674).length - 1)];
   framePtr = F.prev;
 
-  return result_603979892;
+  return result_587202676;
 
 }
 
-function fromFlatty_603980022(s_603980023, i_603980024, i_603980024_Idx, x_603980025, x_603980025_Idx) {
+function fromFlatty_587202806(s_587202807, i_587202808, i_587202808_Idx, x_587202809, x_587202809_Idx) {
   var F = {procname: "flatty.fromFlatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
   framePtr = F;
     F.line = 62;
-    x_603980025[x_603980025_Idx] = readUint8_603979888(s_603980023, i_603980024[i_603980024_Idx]);
+    x_587202809[x_587202809_Idx] = readUint8_587202672(s_587202807, i_587202808[i_587202808_Idx]);
     F.line = 63;
-    i_603980024[i_603980024_Idx] = addInt(i_603980024[i_603980024_Idx], 1);
+    i_587202808[i_587202808_Idx] = addInt(i_587202808[i_587202808_Idx], 1);
   framePtr = F.prev;
 
   
 }
 
-function fromFlatty_436207977(s_436207980, i_436207981, i_436207981_Idx, x_436207982) {
+function fromFlatty_436207988(s_436207991, i_436207992, i_436207992_Idx, x_436207993) {
   var F = {procname: "fromFlatty.fromFlatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
   framePtr = F;
     Label1: do {
       F.line = 236;
-      var j_436208010 = null;
-      var j_436208010_Idx = 0;
+      var j_436208021 = null;
+      var j_436208021_Idx = 0;
       F.line = 42;
-      var i_436208509 = 0;
+      var i_436208520 = 0;
       Label2: do {
         F.line = 43;
           Label3: while (true) {
           if (!true) break Label3;
             F.line = 236;
-            j_436208010 = x_436207982; j_436208010_Idx = chckIndx(i_436208509, 0, (x_436207982).length - 1);
+            j_436208021 = x_436207993; j_436208021_Idx = chckIndx(i_436208520, 0, (x_436207993).length - 1);
             F.line = 236;
-            fromFlatty_603980022(s_436207980, i_436207981, i_436207981_Idx, j_436208010, j_436208010_Idx);
-            if ((31 <= i_436208509)) {
+            fromFlatty_587202806(s_436207991, i_436207992, i_436207992_Idx, j_436208021, j_436208021_Idx);
+            if ((31 <= i_436208520)) {
             F.line = 45;
             break Label2;
             }
             
             F.line = 46;
-            i_436208509 = addInt(i_436208509, 1);
+            i_436208520 = addInt(i_436208520, 1);
           }
       } while (false);
     } while (false);
@@ -3999,30 +3999,30 @@ function fromFlatty_436207977(s_436207980, i_436207981, i_436207981_Idx, x_43620
   
 }
 
-function fromFlatty_436208060(s_436208063, i_436208064, i_436208064_Idx, x_436208065) {
+function fromFlatty_436208071(s_436208074, i_436208075, i_436208075_Idx, x_436208076) {
   var F = {procname: "fromFlatty.fromFlatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
   framePtr = F;
     Label1: do {
       F.line = 236;
-      var j_436208093 = null;
-      var j_436208093_Idx = 0;
+      var j_436208104 = null;
+      var j_436208104_Idx = 0;
       F.line = 42;
-      var i_436208513 = 0;
+      var i_436208524 = 0;
       Label2: do {
         F.line = 43;
           Label3: while (true) {
           if (!true) break Label3;
             F.line = 236;
-            j_436208093 = x_436208065; j_436208093_Idx = chckIndx(i_436208513, 0, (x_436208065).length - 1);
+            j_436208104 = x_436208076; j_436208104_Idx = chckIndx(i_436208524, 0, (x_436208076).length - 1);
             F.line = 236;
-            fromFlatty_603980022(s_436208063, i_436208064, i_436208064_Idx, j_436208093, j_436208093_Idx);
-            if ((23 <= i_436208513)) {
+            fromFlatty_587202806(s_436208074, i_436208075, i_436208075_Idx, j_436208104, j_436208104_Idx);
+            if ((23 <= i_436208524)) {
             F.line = 45;
             break Label2;
             }
             
             F.line = 46;
-            i_436208513 = addInt(i_436208513, 1);
+            i_436208524 = addInt(i_436208524, 1);
           }
       } while (false);
     } while (false);
@@ -4031,30 +4031,30 @@ function fromFlatty_436208060(s_436208063, i_436208064, i_436208064_Idx, x_43620
   
 }
 
-function fromFlatty_436208134(s_436208137, i_436208138, i_436208138_Idx, x_436208139) {
+function fromFlatty_436208145(s_436208148, i_436208149, i_436208149_Idx, x_436208150) {
   var F = {procname: "fromFlatty.fromFlatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
   framePtr = F;
     Label1: do {
       F.line = 236;
-      var j_436208167 = null;
-      var j_436208167_Idx = 0;
+      var j_436208178 = null;
+      var j_436208178_Idx = 0;
       F.line = 42;
-      var i_436208517 = 0;
+      var i_436208528 = 0;
       Label2: do {
         F.line = 43;
           Label3: while (true) {
           if (!true) break Label3;
             F.line = 236;
-            j_436208167 = x_436208139; j_436208167_Idx = chckIndx(i_436208517, 0, (x_436208139).length - 1);
+            j_436208178 = x_436208150; j_436208178_Idx = chckIndx(i_436208528, 0, (x_436208150).length - 1);
             F.line = 236;
-            fromFlatty_603980022(s_436208137, i_436208138, i_436208138_Idx, j_436208167, j_436208167_Idx);
-            if ((15 <= i_436208517)) {
+            fromFlatty_587202806(s_436208148, i_436208149, i_436208149_Idx, j_436208178, j_436208178_Idx);
+            if ((15 <= i_436208528)) {
             F.line = 45;
             break Label2;
             }
             
             F.line = 46;
-            i_436208517 = addInt(i_436208517, 1);
+            i_436208528 = addInt(i_436208528, 1);
           }
       } while (false);
     } while (false);
@@ -4063,66 +4063,66 @@ function fromFlatty_436208134(s_436208137, i_436208138, i_436208138_Idx, x_43620
   
 }
 
-function readInt64_603980152(s_603980154, i_603980155) {
-  var result_603980156 = 0;
+function readInt64_587202936(s_587202938, i_587202939) {
+  var result_587202940 = 0;
 
   var F = {procname: "readInt64.readInt64", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty/jsbinny.nim", line: 0};
   framePtr = F;
     F.line = 124;
         var uintArray = new Uint8Array(8);
     for(j = 0; j < 8; j++){
-      uintArray[j] = s_603980154[i_603980155 + j];
+      uintArray[j] = s_587202938[i_587202939 + j];
     }
     var uint64Array = new BigInt64Array(uintArray.buffer);
     return Number(uint64Array[0]);
   
   framePtr = F.prev;
 
-  return result_603980156;
+  return result_587202940;
 
 }
 
-function fromFlatty_603980161(s_603980162, i_603980163, i_603980163_Idx, x_603980164, x_603980164_Idx) {
+function fromFlatty_587202945(s_587202946, i_587202947, i_587202947_Idx, x_587202948, x_587202948_Idx) {
   var F = {procname: "flatty.fromFlatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
   framePtr = F;
     F.line = 94;
-    x_603980164[x_603980164_Idx] = chckRange(readInt64_603980152(s_603980162, i_603980163[i_603980163_Idx]), -2147483648, 2147483647);
+    x_587202948[x_587202948_Idx] = chckRange(readInt64_587202936(s_587202946, i_587202947[i_587202947_Idx]), -2147483648, 2147483647);
     F.line = 95;
-    i_603980163[i_603980163_Idx] = addInt(i_603980163[i_603980163_Idx], 8);
+    i_587202947[i_587202947_Idx] = addInt(i_587202947[i_587202947_Idx], 8);
   framePtr = F.prev;
 
   
 }
 
-function fromFlatty_436208177(s_436208179, i_436208180, i_436208180_Idx, x_436208181, x_436208181_Idx) {
+function fromFlatty_436208188(s_436208190, i_436208191, i_436208191_Idx, x_436208192, x_436208192_Idx) {
   var F = {procname: "fromFlatty.fromFlatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
   framePtr = F;
     F.line = 139;
-    var len_436208186 = readInt64_603980152(s_436208179, i_436208180[i_436208180_Idx]);
+    var len_436208197 = readInt64_587202936(s_436208190, i_436208191[i_436208191_Idx]);
     F.line = 140;
-    i_436208180[i_436208180_Idx] = addInt(i_436208180[i_436208180_Idx], 8);
+    i_436208191[i_436208191_Idx] = addInt(i_436208191[i_436208191_Idx], 8);
     F.line = 141;
-    if (x_436208181[x_436208181_Idx].length < chckRange(len_436208186, 0, 2147483647)) { for (var i = x_436208181[x_436208181_Idx].length ; i < chckRange(len_436208186, 0, 2147483647) ; ++i) x_436208181[x_436208181_Idx].push(0); }
-               else { x_436208181[x_436208181_Idx].length = chckRange(len_436208186, 0, 2147483647); };
+    if (x_436208192[x_436208192_Idx].length < chckRange(len_436208197, 0, 2147483647)) { for (var i = x_436208192[x_436208192_Idx].length ; i < chckRange(len_436208197, 0, 2147483647) ; ++i) x_436208192[x_436208192_Idx].push(0); }
+               else { x_436208192[x_436208192_Idx].length = chckRange(len_436208197, 0, 2147483647); };
     Label1: do {
       F.line = 147;
-      var j_436208218 = null;
-      var j_436208218_Idx = 0;
+      var j_436208229 = null;
+      var j_436208229_Idx = 0;
       F.line = 244;
-      var i_436208521 = 0;
+      var i_436208532 = 0;
       F.line = 245;
-      var L_436208522 = (x_436208181[x_436208181_Idx]).length;
+      var L_436208533 = (x_436208192[x_436208192_Idx]).length;
       Label2: do {
         F.line = 246;
           Label3: while (true) {
-          if (!(i_436208521 < L_436208522)) break Label3;
+          if (!(i_436208532 < L_436208533)) break Label3;
             F.line = 147;
-            j_436208218 = x_436208181[x_436208181_Idx]; j_436208218_Idx = chckIndx(i_436208521, 0, (x_436208181[x_436208181_Idx]).length - 1);
+            j_436208229 = x_436208192[x_436208192_Idx]; j_436208229_Idx = chckIndx(i_436208532, 0, (x_436208192[x_436208192_Idx]).length - 1);
             F.line = 147;
-            fromFlatty_603980022(s_436208179, i_436208180, i_436208180_Idx, j_436208218, j_436208218_Idx);
+            fromFlatty_587202806(s_436208190, i_436208191, i_436208191_Idx, j_436208229, j_436208229_Idx);
             F.line = 248;
-            i_436208521 = addInt(i_436208521, 1);
-            if (!(((x_436208181[x_436208181_Idx]).length == L_436208522))) {
+            i_436208532 = addInt(i_436208532, 1);
+            if (!(((x_436208192[x_436208192_Idx]).length == L_436208533))) {
             F.line = 249;
             failedAssertImpl_218103864(makeNimstrLit("/home/hortinstein/.choosenim/toolchains/nim-1.6.10/lib/system/iterators.nim(249, 11) `len(a) == L` the length of the seq changed while iterating over it"));
             }
@@ -4135,49 +4135,49 @@ function fromFlatty_436208177(s_436208179, i_436208180, i_436208180_Idx, x_43620
   
 }
 
-function fromFlatty_436207937(s_436207939, i_436207940, i_436207940_Idx, x_436207941) {
+function fromFlatty_436207948(s_436207950, i_436207951, i_436207951_Idx, x_436207952) {
   var F = {procname: "fromFlatty.fromFlatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
   framePtr = F;
     F.line = 171;
-    fromFlatty_436207977(s_436207939, i_436207940, i_436207940_Idx, x_436207941.publicKey);
+    fromFlatty_436207988(s_436207950, i_436207951, i_436207951_Idx, x_436207952.publicKey);
     F.line = 171;
-    fromFlatty_436208060(s_436207939, i_436207940, i_436207940_Idx, x_436207941.nonce);
+    fromFlatty_436208071(s_436207950, i_436207951, i_436207951_Idx, x_436207952.nonce);
     F.line = 171;
-    fromFlatty_436208134(s_436207939, i_436207940, i_436207940_Idx, x_436207941.mac);
+    fromFlatty_436208145(s_436207950, i_436207951, i_436207951_Idx, x_436207952.mac);
     F.line = 171;
-    fromFlatty_603980161(s_436207939, i_436207940, i_436207940_Idx, x_436207941, "cipherLen");
+    fromFlatty_587202945(s_436207950, i_436207951, i_436207951_Idx, x_436207952, "cipherLen");
     F.line = 171;
-    fromFlatty_436208177(s_436207939, i_436207940, i_436207940_Idx, x_436207941, "cipherText");
+    fromFlatty_436208188(s_436207950, i_436207951, i_436207951_Idx, x_436207952, "cipherText");
   framePtr = F.prev;
 
   
 }
 
-function fromFlatty_436207930(s_436207933) {
-  var result_436207935 = [({publicKey: new Uint8Array(32), nonce: new Uint8Array(24), mac: new Uint8Array(16), cipherLen: 0, cipherText: []})];
+function fromFlatty_436207941(s_436207944) {
+  var result_436207946 = [({publicKey: new Uint8Array(32), nonce: new Uint8Array(24), mac: new Uint8Array(16), cipherLen: 0, cipherText: []})];
 
   var F = {procname: "fromFlatty.fromFlatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
   framePtr = F;
     F.line = 290;
-    var i_436207936 = [0];
+    var i_436207947 = [0];
     F.line = 291;
-    fromFlatty_436207937(s_436207933, i_436207936, 0, result_436207935[0]);
+    fromFlatty_436207948(s_436207944, i_436207947, 0, result_436207946[0]);
   framePtr = F.prev;
 
-  return result_436207935[0];
+  return result_436207946[0];
 
 }
 
-function desEncObj_436207927(serEncObj_436207928) {
-  var result_436207929 = ({publicKey: new Uint8Array(32), nonce: new Uint8Array(24), mac: new Uint8Array(16), cipherLen: 0, cipherText: []});
+function desEncObj_436207938(serEncObj_436207939) {
+  var result_436207940 = ({publicKey: new Uint8Array(32), nonce: new Uint8Array(24), mac: new Uint8Array(16), cipherLen: 0, cipherText: []});
 
   var F = {procname: "serialize.desEncObj", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/serialize.nim", line: 0};
   framePtr = F;
-    F.line = 31;
-    result_436207929 = nimCopy(result_436207929, fromFlatty_436207930(serEncObj_436207928), NTI587202598);
+    F.line = 48;
+    result_436207940 = nimCopy(result_436207940, fromFlatty_436207941(serEncObj_436207939), NTI436207654);
   framePtr = F.prev;
 
-  return result_436207929;
+  return result_436207940;
 
 }
 
@@ -4323,16 +4323,16 @@ function encode_570425386(s_570425387, safe_570425388) {
 
 }
 
-function b64Str_436207656(msg_436207657) {
-  var result_436207658 = [];
+function b64Str_436207667(msg_436207668) {
+  var result_436207669 = [];
 
   var F = {procname: "serialize.b64Str", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/serialize.nim", line: 0};
   framePtr = F;
-    F.line = 22;
-    result_436207658 = nimCopy(null, encode_570425386(msg_436207657, true), NTI33554439);
+    F.line = 39;
+    result_436207669 = nimCopy(null, encode_570425386(msg_436207668, true), NTI33554439);
   framePtr = F.prev;
 
-  return result_436207658;
+  return result_436207669;
 
 }
 
@@ -4520,144 +4520,144 @@ function decodeSize_570425739(size_570425740) {
 
 }
 
-function unb64str_436207659(msg_436207660) {
-  var result_436207661 = [];
+function unb64str_436207670(msg_436207671) {
+  var result_436207672 = [];
 
   var F = {procname: "serialize.unb64str", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/serialize.nim", line: 0};
   framePtr = F;
-    F.line = 25;
-    result_436207661 = nimCopy(null, decode_570425736(msg_436207660), NTI33554439);
+    F.line = 42;
+    result_436207672 = nimCopy(null, decode_570425736(msg_436207671), NTI33554439);
   framePtr = F.prev;
 
-  return result_436207661;
+  return result_436207672;
 
 }
 
-function wrap_436208228(encObj_436208229) {
-  var result_436208230 = [];
+function wrap_436208239(encObj_436208240) {
+  var result_436208241 = [];
 
   var F = {procname: "serialize.wrap", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/serialize.nim", line: 0};
   framePtr = F;
   BeforeRet: do {
-    F.line = 34;
-    var serEncObj_436208231 = serEncObj_436207662(encObj_436208229);
-    F.line = 35;
-    var b64SerEncObj_436208232 = b64Str_436207656(serEncObj_436208231);
-    F.line = 36;
-    result_436208230 = nimCopy(null, b64SerEncObj_436208232, NTI33554439);
+    F.line = 51;
+    var serEncObj_436208242 = serEncObj_436207673(encObj_436208240);
+    F.line = 52;
+    var b64SerEncObj_436208243 = b64Str_436207667(serEncObj_436208242);
+    F.line = 53;
+    result_436208241 = nimCopy(null, b64SerEncObj_436208243, NTI33554439);
     break BeforeRet;
   } while (false);
   framePtr = F.prev;
 
-  return result_436208230;
+  return result_436208241;
 
 }
 
-function unwrap_436208233(b64SerEncObj_436208234) {
-  var result_436208235 = ({publicKey: new Uint8Array(32), nonce: new Uint8Array(24), mac: new Uint8Array(16), cipherLen: 0, cipherText: []});
+function unwrap_436208244(b64SerEncObj_436208245) {
+  var result_436208246 = ({publicKey: new Uint8Array(32), nonce: new Uint8Array(24), mac: new Uint8Array(16), cipherLen: 0, cipherText: []});
 
   var F = {procname: "serialize.unwrap", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/serialize.nim", line: 0};
   framePtr = F;
   BeforeRet: do {
-    F.line = 39;
-    var serEncObj_436208236 = unb64str_436207659(b64SerEncObj_436208234);
-    F.line = 40;
-    var encObj_436208237 = desEncObj_436207927(serEncObj_436208236);
-    F.line = 41;
-    result_436208235 = nimCopy(result_436208235, encObj_436208237, NTI587202598);
+    F.line = 56;
+    var serEncObj_436208247 = unb64str_436207670(b64SerEncObj_436208245);
+    F.line = 57;
+    var encObj_436208248 = desEncObj_436207938(serEncObj_436208247);
+    F.line = 58;
+    result_436208246 = nimCopy(result_436208246, encObj_436208248, NTI436207654);
     break BeforeRet;
   } while (false);
   framePtr = F.prev;
 
-  return result_436208235;
+  return result_436208246;
 
 }
 
-function toFlatty_436208241(x_436208243) {
-  var result_436208244 = [[]];
+function toFlatty_436208252(x_436208254) {
+  var result_436208255 = [[]];
 
   var F = {procname: "toFlatty.toFlatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
   framePtr = F;
     F.line = 286;
-    toFlatty_436207719(result_436208244, 0, x_436208243);
+    toFlatty_436207730(result_436208255, 0, x_436208254);
   framePtr = F.prev;
 
-  return result_436208244[0];
+  return result_436208255[0];
 
 }
 
-function wrapKey_436208238(key_436208239) {
-  var result_436208240 = [];
+function wrapKey_436208249(key_436208250) {
+  var result_436208251 = [];
 
   var F = {procname: "serialize.wrapKey", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/serialize.nim", line: 0};
   framePtr = F;
   BeforeRet: do {
-    F.line = 44;
-    var serKey_436208281 = toFlatty_436208241(key_436208239);
-    F.line = 45;
-    var b64Key_436208282 = b64Str_436207656(serKey_436208281);
-    F.line = 46;
-    result_436208240 = nimCopy(null, b64Key_436208282, NTI33554439);
+    F.line = 61;
+    var serKey_436208292 = toFlatty_436208252(key_436208250);
+    F.line = 62;
+    var b64Key_436208293 = b64Str_436207667(serKey_436208292);
+    F.line = 63;
+    result_436208251 = nimCopy(null, b64Key_436208293, NTI33554439);
     break BeforeRet;
   } while (false);
   framePtr = F.prev;
 
-  return result_436208240;
+  return result_436208251;
 
 }
 
-function fromFlatty_436208287(s_436208290) {
-  var result_436208292 = [new Uint8Array(32)];
+function fromFlatty_436208298(s_436208301) {
+  var result_436208303 = [new Uint8Array(32)];
 
   var F = {procname: "fromFlatty.fromFlatty", prev: framePtr, filename: "/home/hortinstein/.nimble/pkgs/flatty-0.3.4/flatty.nim", line: 0};
   framePtr = F;
     F.line = 290;
-    var i_436208293 = [0];
+    var i_436208304 = [0];
     F.line = 291;
-    fromFlatty_436207977(s_436208290, i_436208293, 0, result_436208292[0]);
+    fromFlatty_436207988(s_436208301, i_436208304, 0, result_436208303[0]);
   framePtr = F.prev;
 
-  return result_436208292[0];
+  return result_436208303[0];
 
 }
 
-function unwrapKey_436208283(wrappedKey_436208284) {
-  var result_436208285 = new Uint8Array(32);
+function unwrapKey_436208294(wrappedKey_436208295) {
+  var result_436208296 = new Uint8Array(32);
 
   var F = {procname: "serialize.unwrapKey", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/serialize.nim", line: 0};
   framePtr = F;
   BeforeRet: do {
-    F.line = 49;
-    var serKey_436208286 = unb64str_436207659(wrappedKey_436208284);
-    F.line = 50;
-    result_436208285 = nimCopy(result_436208285, fromFlatty_436208287(serKey_436208286), NTI587202564);
+    F.line = 66;
+    var serKey_436208297 = unb64str_436207670(wrappedKey_436208295);
+    F.line = 67;
+    result_436208296 = nimCopy(result_436208296, fromFlatty_436208298(serKey_436208297), NTI436207620);
     break BeforeRet;
   } while (false);
   framePtr = F.prev;
 
-  return result_436208285;
+  return result_436208296;
 
 }
 var F = {procname: "module serialize", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/serialize.nim", line: 0};
 framePtr = F;
-F.line = 53;
-module.exports.returnEncObj = returnEncObj_436207622;
-F.line = 54;
-module.exports.serEncObj = serEncObj_436207662;
-F.line = 55;
-module.exports.desEncObj = desEncObj_436207927;
-F.line = 56;
-module.exports.b64Str = b64Str_436207656;
-F.line = 57;
-module.exports.unb64Str = unb64str_436207659;
-F.line = 58;
-module.exports.wrap = wrap_436208228;
-F.line = 59;
-module.exports.unwrap = unwrap_436208233;
-F.line = 60;
-module.exports.wrapKey = wrapKey_436208238;
-F.line = 61;
-module.exports.unwrapKey = unwrapKey_436208283;
+F.line = 70;
+module.exports.returnEncObj = returnEncObj_436207633;
+F.line = 71;
+module.exports.serEncObj = serEncObj_436207673;
+F.line = 72;
+module.exports.desEncObj = desEncObj_436207938;
+F.line = 73;
+module.exports.b64Str = b64Str_436207667;
+F.line = 74;
+module.exports.unb64Str = unb64str_436207670;
+F.line = 75;
+module.exports.wrap = wrap_436208239;
+F.line = 76;
+module.exports.unwrap = unwrap_436208244;
+F.line = 77;
+module.exports.wrapKey = wrapKey_436208249;
+F.line = 78;
+module.exports.unwrapKey = unwrapKey_436208294;
 framePtr = F.prev;
 var F = {procname: "module serialize", prev: framePtr, filename: "/home/hortinstein/enkodo/src/enkodo/serialize.nim", line: 0};
 framePtr = F;
