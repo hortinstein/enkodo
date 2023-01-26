@@ -57,9 +57,10 @@ const hello_world = new TextEncoder().encode("Hello World");
 const [priv, pub] = generateKeyPair();
 const [priv2, pub2] = generateKeyPair();
 
-const enc_test = enc(priv, pub2, hello_world);
-const plain = dec(priv2, enc_test);
-assertEquals(hello_world, plain);
+const enc_test = enc(priv, pub2, hello_world); //encrpyt
+const wrapped = wrap(enc_test); //serialize and base64
+const unwrapped = unwrap(wrapped); //de-serialize and unbase64
+const plain = dec(priv2, unwrapped);
 ```
 
 ### Nimble Test

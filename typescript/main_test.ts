@@ -36,14 +36,14 @@ export function encrypt_decrypt() {
 Deno.test(encrypt_decrypt)
 
 // this function tests serialization and deserialization of the encryption object
-Deno.test(function wrap_unwrap() {
+export function wrap_unwrap() {
   const enc_test = enc(priv, pub2, hello_world);
   const wrapped = wrap(enc_test);
-  console.log(wrapped)
   const unwrapped = unwrap(wrapped);
   const plain = dec(priv2, unwrapped);
   assertEquals(enc_test, unwrapped);
-});
+};
+Deno.test(wrap_unwrap)
 
 Deno.test(function unwrapanddecrypt() {
   const unwrapped = unwrap(TEST_WRAPPED);
