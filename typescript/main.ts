@@ -1,7 +1,7 @@
-import * as mod from "https://deno.land/std@0.166.0/crypto/mod.ts";
+import * as mod from "https://deno.land/std@0.176.0/crypto/mod.ts";
 
 // import the nim generated code
-import { createRequire } from "https://deno.land/std@0.103.0/node/module.ts";
+import { createRequire } from "https://deno.land/std@0.176.0/node/module.ts";
 const require = createRequire(import.meta.url);
 const serialize = require("./serialize.js");
 
