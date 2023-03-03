@@ -34,15 +34,15 @@ let (b_secretKey, b_publicKey) = generateKeyPair()
 let plaintext = cast[seq[byte]]("hello this is a test string")
 
 let encObj = enc(a_secretKey,b_publicKey,plaintext)
-let wrapped = wrap(encObj)
-let unwrapped = unwrap(wrapped)
+let wrapped = wrap(encObj) //serialize and b64
+let unwrapped = unwrap(wrapped) //unb64 and deserialize
 let ptext = dec(b_secretKey,unwrapped)
 doAssert(plaintext == ptext)
 ```
 
 #### Typescript
 
-Below is a simple nim example of encypting, serializing and base64ing
+Below is a simple typescript example of encypting, serializing and base64ing
 
 ``` typescript
 import {
