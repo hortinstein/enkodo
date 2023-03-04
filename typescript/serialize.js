@@ -430,6 +430,14 @@ function absInt(a_33556988) {
   return result_33556989;
 
 }
+if (!Math.trunc) {
+  Math.trunc = function(v) {
+    v = +v;
+    if (!isFinite(v)) return v;
+    return (v - v % 1) || (v < 0 ? -0 : v === 0 ? v : 0);
+  };
+}
+
 var F = {procname: "module base64", prev: framePtr, filename: "/home/hortinstein/.choosenim/toolchains/nim-1.6.10/lib/pure/base64.nim", line: 0};
 framePtr = F;
 framePtr = F.prev;

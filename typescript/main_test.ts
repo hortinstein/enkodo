@@ -2,7 +2,7 @@ import {
   assertEquals,
   assertStringIncludes,
 } from "https://deno.land/std@0.166.0/testing/asserts.ts";
-import { createRequire } from "https://deno.land/std@0.166.0/node/module.ts";
+import { createRequire } from "https://deno.land/std@0.176.0/node/module.ts";
 
 import {
   enc,

@@ -3904,26 +3904,26 @@ function formatRaw(ctx, value, recurseTimes, typedArray) {
             formatter = formatArray;
         } else if (isSet1(value)) {
             const size = value.size;
-            const prefix1 = getPrefix(constructor, tag, "Set", `(${size})`);
+            const prefix = getPrefix(constructor, tag, "Set", `(${size})`);
             keys = getKeys(value, ctx.showHidden);
             formatter = constructor !== null ? formatSet.bind(null, value) : formatSet.bind(null, value.values());
             if (size === 0 && keys.length === 0 && protoProps === undefined) {
-                return `${prefix1}{}`;
+                return `${prefix}{}`;
             }
             braces = [
-                `${prefix1}{`,
+                `${prefix}{`,
                 "}"
             ];
         } else if (isMap1(value)) {
-            const size1 = value.size;
-            const prefix2 = getPrefix(constructor, tag, "Map", `(${size1})`);
+            const size = value.size;
+            const prefix = getPrefix(constructor, tag, "Map", `(${size})`);
             keys = getKeys(value, ctx.showHidden);
             formatter = constructor !== null ? formatMap.bind(null, value) : formatMap.bind(null, value.entries());
-            if (size1 === 0 && keys.length === 0 && protoProps === undefined) {
-                return `${prefix2}{}`;
+            if (size === 0 && keys.length === 0 && protoProps === undefined) {
+                return `${prefix}{}`;
             }
             braces = [
-                `${prefix2}{`,
+                `${prefix}{`,
                 "}"
             ];
         } else if (isTypedArray(value)) {
@@ -3931,16 +3931,16 @@ function formatRaw(ctx, value, recurseTimes, typedArray) {
             const bound = value;
             const fallback = "";
             if (constructor === null) {}
-            const size2 = value.length;
-            const prefix3 = getPrefix(constructor, tag, fallback, `(${size2})`);
+            const size = value.length;
+            const prefix = getPrefix(constructor, tag, fallback, `(${size})`);
             braces = [
-                `${prefix3}[`,
+                `${prefix}[`,
                 "]"
             ];
             if (value.length === 0 && keys.length === 0 && !ctx.showHidden) {
                 return `${braces[0]}]`;
             }
-            formatter = formatTypedArray.bind(null, bound, size2);
+            formatter = formatTypedArray.bind(null, bound, size);
             extrasType = kArrayExtrasType;
         } else if (isMapIterator1(value)) {
             keys = getKeys(value, ctx.showHidden);
@@ -3976,18 +3976,18 @@ function formatRaw(ctx, value, recurseTimes, typedArray) {
             }
         } else if (isRegExp1(value)) {
             base = RegExp(constructor !== null ? value : new RegExp(value)).toString();
-            const prefix4 = getPrefix(constructor, tag, "RegExp");
-            if (prefix4 !== "RegExp ") {
-                base = `${prefix4}${base}`;
+            const prefix = getPrefix(constructor, tag, "RegExp");
+            if (prefix !== "RegExp ") {
+                base = `${prefix}${base}`;
             }
             if (keys.length === 0 && protoProps === undefined || recurseTimes > ctx.depth && ctx.depth !== null) {
                 return ctx.stylize(base, "regexp");
             }
         } else if (isDate1(value)) {
             base = Number.isNaN(value.getTime()) ? value.toString() : value.toISOString();
-            const prefix5 = getPrefix(constructor, tag, "Date");
-            if (prefix5 !== "Date ") {
-                base = `${prefix5}${base}`;
+            const prefix = getPrefix(constructor, tag, "Date");
+            if (prefix !== "Date ") {
+                base = `${prefix}${base}`;
             }
             if (keys.length === 0 && protoProps === undefined) {
                 return ctx.stylize(base, "date");
@@ -3999,13 +3999,13 @@ function formatRaw(ctx, value, recurseTimes, typedArray) {
             }
         } else if (isAnyArrayBuffer1(value)) {
             const arrayType = isArrayBuffer1(value) ? "ArrayBuffer" : "SharedArrayBuffer";
-            const prefix6 = getPrefix(constructor, tag, arrayType);
+            const prefix = getPrefix(constructor, tag, arrayType);
             if (typedArray === undefined) {
                 formatter = formatArrayBuffer;
             } else if (keys.length === 0 && protoProps === undefined) {
-                return prefix6 + `{ byteLength: ${formatNumber(ctx.stylize, value.byteLength)} }`;
+                return prefix + `{ byteLength: ${formatNumber(ctx.stylize, value.byteLength)} }`;
             }
-            braces[0] = `${prefix6}{`;
+            braces[0] = `${prefix}{`;
             Array.prototype.unshift.call(keys, "byteLength");
         } else if (isDataView1(value)) {
             braces[0] = `${getPrefix(constructor, tag, "DataView")}{`;
@@ -4055,8 +4055,8 @@ function formatRaw(ctx, value, recurseTimes, typedArray) {
             output.push(...protoProps);
         }
     } catch (err) {
-        const constructorName1 = getCtxStyle(value, constructor, tag).slice(0, -1);
-        return handleMaxCallStackSize(ctx, err, constructorName1, indentationLvl);
+        const constructorName = getCtxStyle(value, constructor, tag).slice(0, -1);
+        return handleMaxCallStackSize(ctx, err, constructorName, indentationLvl);
     }
     if (ctx.circular !== undefined) {
         const index = ctx.circular.get(value);
@@ -4358,13 +4358,13 @@ function formatError(err, constructor, tag, ctx, keys) {
     let len = name.length;
     let stack = err.stack ? String(err.stack) : err.toString();
     if (!ctx.showHidden && keys.length !== 0) {
-        for (const name1 of [
+        for (const name of [
             "name",
             "message",
             "stack"
         ]){
-            const index = keys.indexOf(name1);
-            if (index !== -1 && stack.includes(err[name1])) {
+            const index = keys.indexOf(name);
+            if (index !== -1 && stack.includes(err[name])) {
                 keys.splice(index, 1);
             }
         }
@@ -4403,13 +4403,13 @@ function formatError(err, constructor, tag, ctx, keys) {
         for (const line of lines){
             let nodeModule;
             newStack += "\n";
-            let pos1 = 0;
+            let pos = 0;
             while(nodeModule = nodeModulesRegExp.exec(line)){
-                newStack += line.slice(pos1, nodeModule.index + 14);
+                newStack += line.slice(pos, nodeModule.index + 14);
                 newStack += ctx.stylize(nodeModule[1], "module");
-                pos1 = nodeModule.index + nodeModule[0].length;
+                pos = nodeModule.index + nodeModule[0].length;
             }
-            newStack += pos1 === 0 ? line : line.slice(pos1);
+            newStack += pos === 0 ? line : line.slice(pos);
         }
         stack = newStack;
     }
@@ -4519,13 +4519,13 @@ function formatProperty(ctx, value, recurseTimes, key, type, desc, original = va
         return str;
     }
     if (typeof key === "symbol") {
-        const tmp1 = key.toString().replace(strEscapeSequencesReplacer, escapeFn);
-        name = `[${ctx.stylize(tmp1, "symbol")}]`;
+        const tmp = key.toString().replace(strEscapeSequencesReplacer, escapeFn);
+        name = `[${ctx.stylize(tmp, "symbol")}]`;
     } else if (key === "__proto__") {
         name = "['__proto__']";
     } else if (desc.enumerable === false) {
-        const tmp2 = key.replace(strEscapeSequencesReplacer, escapeFn);
-        name = `[${tmp2}]`;
+        const tmp = key.replace(strEscapeSequencesReplacer, escapeFn);
+        name = `[${tmp}]`;
     } else if (keyStrRegExp.test(key)) {
         name = ctx.stylize(key, "name");
     } else {
@@ -4603,9 +4603,9 @@ function formatSpecialArray(ctx, value, recurseTimes, maxLength, output, i) {
     const remaining = value.length - index;
     if (output.length !== maxLength) {
         if (remaining > 0) {
-            const ending1 = remaining > 1 ? "s" : "";
-            const message1 = `<${remaining} empty item${ending1}>`;
-            output.push(ctx.stylize(message1, "undefined"));
+            const ending = remaining > 1 ? "s" : "";
+            const message = `<${remaining} empty item${ending}>`;
+            output.push(ctx.stylize(message, "undefined"));
         }
     } else if (remaining > 0) {
         output.push(`... ${remaining} more item${remaining > 1 ? "s" : ""}`);
@@ -4683,9 +4683,9 @@ function reduceToSingleString(ctx, output, base, braces, extrasType, recurseTime
     if (isBelowBreakLength(ctx, output, 0, base)) {
         return `${braces[0]}${base ? ` ${base}` : ""} ${join(output, ", ")} ` + braces[1];
     }
-    const indentation1 = " ".repeat(ctx.indentationLvl);
-    const ln = base === "" && braces[0].length === 1 ? " " : `${base ? ` ${base}` : ""}\n${indentation1}  `;
-    return `${braces[0]}${ln}${join(output, `,\n${indentation1}  `)} ${braces[1]}`;
+    const indentation = " ".repeat(ctx.indentationLvl);
+    const ln = base === "" && braces[0].length === 1 ? " " : `${base ? ` ${base}` : ""}\n${indentation}  `;
+    return `${braces[0]}${ln}${join(output, `,\n${indentation}  `)} ${braces[1]}`;
 }
 function join(output, separator) {
     let str = "";
@@ -4727,38 +4727,38 @@ function groupArrayElements(ctx, output, value) {
         }
         const tmp = [];
         const maxLineLength = [];
-        for(let i1 = 0; i1 < columns; i1++){
+        for(let i = 0; i < columns; i++){
             let lineMaxLength = 0;
-            for(let j = i1; j < output.length; j += columns){
+            for(let j = i; j < output.length; j += columns){
                 if (dataLen[j] > lineMaxLength) {
                     lineMaxLength = dataLen[j];
                 }
             }
             lineMaxLength += separatorSpace;
-            maxLineLength[i1] = lineMaxLength;
+            maxLineLength[i] = lineMaxLength;
         }
         let order = String.prototype.padStart;
         if (value !== undefined) {
-            for(let i2 = 0; i2 < output.length; i2++){
-                if (typeof value[i2] !== "number" && typeof value[i2] !== "bigint") {
+            for(let i = 0; i < output.length; i++){
+                if (typeof value[i] !== "number" && typeof value[i] !== "bigint") {
                     order = String.prototype.padEnd;
                     break;
                 }
             }
         }
-        for(let i3 = 0; i3 < outputLength; i3 += columns){
-            const max = Math.min(i3 + columns, outputLength);
+        for(let i = 0; i < outputLength; i += columns){
+            const max = Math.min(i + columns, outputLength);
             let str = "";
-            let j1 = i3;
-            for(; j1 < max - 1; j1++){
-                const padding = maxLineLength[j1 - i3] + output[j1].length - dataLen[j1];
-                str += `${output[j1]}, `.padStart(padding, " ");
+            let j = i;
+            for(; j < max - 1; j++){
+                const padding = maxLineLength[j - i] + output[j].length - dataLen[j];
+                str += `${output[j]}, `.padStart(padding, " ");
             }
             if (order === String.prototype.padStart) {
-                const padding1 = maxLineLength[j1 - i3] + output[j1].length - dataLen[j1] - 2;
-                str += output[j1].padStart(padding1, " ");
+                const padding = maxLineLength[j - i] + output[j].length - dataLen[j] - 2;
+                str += output[j].padStart(padding, " ");
             } else {
-                str += output[j1];
+                str += output[j];
             }
             Array.prototype.push.call(tmp, str);
         }
@@ -4787,10 +4787,10 @@ function formatMapIterInner(ctx, recurseTimes, entries, state) {
         }
     } else {
         for(; i < maxLength; i++){
-            const pos1 = i * 2;
+            const pos = i * 2;
             const res = [
-                formatValue(ctx, entries[pos1], recurseTimes),
-                formatValue(ctx, entries[pos1 + 1], recurseTimes)
+                formatValue(ctx, entries[pos], recurseTimes),
+                formatValue(ctx, entries[pos + 1], recurseTimes)
             ];
             output[i] = reduceToSingleString(ctx, res, "", [
                 "[",
@@ -5766,9 +5766,9 @@ function isStackOverflowError(err) {
                 overflowStack();
             }
             overflowStack();
-        } catch (err1) {
-            maxStack_ErrorMessage = err1.message;
-            maxStack_ErrorName = err1.name;
+        } catch (err) {
+            maxStack_ErrorMessage = err.message;
+            maxStack_ErrorName = err.name;
         }
     }
     return err && err.name === maxStack_ErrorName && err.message === maxStack_ErrorMessage;
@@ -6072,8 +6072,8 @@ function createInvalidArgType(name, expected) {
     }
     if (instances.length > 0) {
         if (instances.length > 2) {
-            const last1 = instances.pop();
-            msg += `an instance of ${instances.join(", ")}, or ${last1}`;
+            const last = instances.pop();
+            msg += `an instance of ${instances.join(", ")}, or ${last}`;
         } else {
             msg += `an instance of ${instances[0]}`;
             if (instances.length === 2) {
@@ -6086,8 +6086,8 @@ function createInvalidArgType(name, expected) {
     }
     if (other.length > 0) {
         if (other.length > 2) {
-            const last2 = other.pop();
-            msg += `one of ${other.join(", ")}, or ${last2}`;
+            const last = other.pop();
+            msg += `one of ${other.join(", ")}, or ${last}`;
         } else if (other.length === 2) {
             msg += `one of ${other[0]} or ${other[1]}`;
         } else {
@@ -7973,9 +7973,9 @@ EventEmitter.prototype.emit = function emit(type, ...args) {
         const len = handler.length;
         const listeners = arrayClone(handler);
         for(let i = 0; i < len; ++i){
-            const result1 = listeners[i].apply(this, args);
-            if (result1 !== undefined && result1 !== null) {
-                addCatch(this, result1, type, args);
+            const result = listeners[i].apply(this, args);
+            if (result !== undefined && result !== null) {
+                addCatch(this, result, type, args);
             }
         }
     }
@@ -8473,10 +8473,10 @@ function parse(args, { "--": doubleDash = false , alias ={} , boolean: __boolean
             } else {
                 aliases[key] = val;
             }
-            for (const alias1 of getForce(aliases, key)){
-                aliases[alias1] = [
+            for (const alias of getForce(aliases, key)){
+                aliases[alias] = [
                     key
-                ].concat(aliases[key].filter((y)=>alias1 !== y));
+                ].concat(aliases[key].filter((y)=>alias !== y));
             }
         }
     }
@@ -8487,11 +8487,11 @@ function parse(args, { "--": doubleDash = false , alias ={} , boolean: __boolean
             const booleanArgs = typeof __boolean === "string" ? [
                 __boolean
             ] : __boolean;
-            for (const key1 of booleanArgs.filter(Boolean)){
-                flags.bools[key1] = true;
-                const alias2 = get(aliases, key1);
-                if (alias2) {
-                    for (const al of alias2){
+            for (const key of booleanArgs.filter(Boolean)){
+                flags.bools[key] = true;
+                const alias = get(aliases, key);
+                if (alias) {
+                    for (const al of alias){
                         flags.bools[al] = true;
                     }
                 }
@@ -8502,12 +8502,12 @@ function parse(args, { "--": doubleDash = false , alias ={} , boolean: __boolean
         const stringArgs = typeof string === "string" ? [
             string
         ] : string;
-        for (const key2 of stringArgs.filter(Boolean)){
-            flags.strings[key2] = true;
-            const alias3 = get(aliases, key2);
-            if (alias3) {
-                for (const al1 of alias3){
-                    flags.strings[al1] = true;
+        for (const key of stringArgs.filter(Boolean)){
+            flags.strings[key] = true;
+            const alias = get(aliases, key);
+            if (alias) {
+                for (const al of alias){
+                    flags.strings[al] = true;
                 }
             }
         }
@@ -8516,12 +8516,12 @@ function parse(args, { "--": doubleDash = false , alias ={} , boolean: __boolean
         const collectArgs = typeof collect === "string" ? [
             collect
         ] : collect;
-        for (const key3 of collectArgs.filter(Boolean)){
-            flags.collect[key3] = true;
-            const alias4 = get(aliases, key3);
-            if (alias4) {
-                for (const al2 of alias4){
-                    flags.collect[al2] = true;
+        for (const key of collectArgs.filter(Boolean)){
+            flags.collect[key] = true;
+            const alias = get(aliases, key);
+            if (alias) {
+                for (const al of alias){
+                    flags.collect[al] = true;
                 }
             }
         }
@@ -8530,12 +8530,12 @@ function parse(args, { "--": doubleDash = false , alias ={} , boolean: __boolean
         const negatableArgs = typeof negatable === "string" ? [
             negatable
         ] : negatable;
-        for (const key4 of negatableArgs.filter(Boolean)){
-            flags.negatable[key4] = true;
-            const alias5 = get(aliases, key4);
-            if (alias5) {
-                for (const al3 of alias5){
-                    flags.negatable[al3] = true;
+        for (const key of negatableArgs.filter(Boolean)){
+            flags.negatable[key] = true;
+            const alias = get(aliases, key);
+            if (alias) {
+                for (const al of alias){
+                    flags.negatable[al] = true;
                 }
             }
         }
@@ -8598,47 +8598,47 @@ function parse(args, { "--": doubleDash = false , alias ={} , boolean: __boolean
         if (/^--.+=/.test(arg)) {
             const m = arg.match(/^--([^=]+)=(.*)$/s);
             assert(m != null);
-            const [, key5, value] = m;
-            if (flags.bools[key5]) {
+            const [, key, value] = m;
+            if (flags.bools[key]) {
                 const booleanValue = value !== "false";
-                setArg(key5, booleanValue, arg);
+                setArg(key, booleanValue, arg);
             } else {
-                setArg(key5, value, arg);
+                setArg(key, value, arg);
             }
         } else if (/^--no-.+/.test(arg) && get(flags.negatable, arg.replace(/^--no-/, ""))) {
-            const m1 = arg.match(/^--no-(.+)/);
-            assert(m1 != null);
-            setArg(m1[1], false, arg, false);
+            const m = arg.match(/^--no-(.+)/);
+            assert(m != null);
+            setArg(m[1], false, arg, false);
         } else if (/^--.+/.test(arg)) {
-            const m2 = arg.match(/^--(.+)/);
-            assert(m2 != null);
-            const [, key6] = m2;
+            const m = arg.match(/^--(.+)/);
+            assert(m != null);
+            const [, key] = m;
             const next = args[i + 1];
-            if (next !== undefined && !/^-/.test(next) && !get(flags.bools, key6) && !flags.allBools && (get(aliases, key6) ? !aliasIsBoolean(key6) : true)) {
-                setArg(key6, next, arg);
+            if (next !== undefined && !/^-/.test(next) && !get(flags.bools, key) && !flags.allBools && (get(aliases, key) ? !aliasIsBoolean(key) : true)) {
+                setArg(key, next, arg);
                 i++;
             } else if (/^(true|false)$/.test(next)) {
-                setArg(key6, next === "true", arg);
+                setArg(key, next === "true", arg);
                 i++;
             } else {
-                setArg(key6, get(flags.strings, key6) ? "" : true, arg);
+                setArg(key, get(flags.strings, key) ? "" : true, arg);
             }
         } else if (/^-[^-]+/.test(arg)) {
             const letters = arg.slice(1, -1).split("");
             let broken = false;
             for(let j = 0; j < letters.length; j++){
-                const next1 = arg.slice(j + 2);
-                if (next1 === "-") {
-                    setArg(letters[j], next1, arg);
+                const next = arg.slice(j + 2);
+                if (next === "-") {
+                    setArg(letters[j], next, arg);
                     continue;
                 }
-                if (/[A-Za-z]/.test(letters[j]) && /=/.test(next1)) {
-                    setArg(letters[j], next1.split(/=(.+)/)[1], arg);
+                if (/[A-Za-z]/.test(letters[j]) && /=/.test(next)) {
+                    setArg(letters[j], next.split(/=(.+)/)[1], arg);
                     broken = true;
                     break;
                 }
-                if (/[A-Za-z]/.test(letters[j]) && /-?\d+(\.\d*)?(e-?\d+)?$/.test(next1)) {
-                    setArg(letters[j], next1, arg);
+                if (/[A-Za-z]/.test(letters[j]) && /-?\d+(\.\d*)?(e-?\d+)?$/.test(next)) {
+                    setArg(letters[j], next, arg);
                     broken = true;
                     break;
                 }
@@ -8650,16 +8650,16 @@ function parse(args, { "--": doubleDash = false , alias ={} , boolean: __boolean
                     setArg(letters[j], get(flags.strings, letters[j]) ? "" : true, arg);
                 }
             }
-            const [key7] = arg.slice(-1);
-            if (!broken && key7 !== "-") {
-                if (args[i + 1] && !/^(-|--)[^-]/.test(args[i + 1]) && !get(flags.bools, key7) && (get(aliases, key7) ? !aliasIsBoolean(key7) : true)) {
-                    setArg(key7, args[i + 1], arg);
+            const [key] = arg.slice(-1);
+            if (!broken && key !== "-") {
+                if (args[i + 1] && !/^(-|--)[^-]/.test(args[i + 1]) && !get(flags.bools, key) && (get(aliases, key) ? !aliasIsBoolean(key) : true)) {
+                    setArg(key, args[i + 1], arg);
                     i++;
                 } else if (args[i + 1] && /^(true|false)$/.test(args[i + 1])) {
-                    setArg(key7, args[i + 1] === "true", arg);
+                    setArg(key, args[i + 1] === "true", arg);
                     i++;
                 } else {
-                    setArg(key7, get(flags.strings, key7) ? "" : true, arg);
+                    setArg(key, get(flags.strings, key) ? "" : true, arg);
                 }
             }
         } else {
@@ -8672,35 +8672,35 @@ function parse(args, { "--": doubleDash = false , alias ={} , boolean: __boolean
             }
         }
     }
-    for (const [key8, value1] of Object.entries(defaults)){
-        if (!hasKey(argv, key8.split("."))) {
-            setKey(argv, key8, value1);
-            if (aliases[key8]) {
-                for (const x of aliases[key8]){
-                    setKey(argv, x, value1);
+    for (const [key, value] of Object.entries(defaults)){
+        if (!hasKey(argv, key.split("."))) {
+            setKey(argv, key, value);
+            if (aliases[key]) {
+                for (const x of aliases[key]){
+                    setKey(argv, x, value);
                 }
             }
         }
     }
-    for (const key9 of Object.keys(flags.bools)){
-        if (!hasKey(argv, key9.split("."))) {
-            const value2 = get(flags.collect, key9) ? [] : false;
-            setKey(argv, key9, value2, false);
+    for (const key of Object.keys(flags.bools)){
+        if (!hasKey(argv, key.split("."))) {
+            const value = get(flags.collect, key) ? [] : false;
+            setKey(argv, key, value, false);
         }
     }
-    for (const key10 of Object.keys(flags.strings)){
-        if (!hasKey(argv, key10.split(".")) && get(flags.collect, key10)) {
-            setKey(argv, key10, [], false);
+    for (const key of Object.keys(flags.strings)){
+        if (!hasKey(argv, key.split(".")) && get(flags.collect, key)) {
+            setKey(argv, key, [], false);
         }
     }
     if (doubleDash) {
         argv["--"] = [];
-        for (const key11 of notFlags){
-            argv["--"].push(key11);
+        for (const key of notFlags){
+            argv["--"].push(key);
         }
     } else {
-        for (const key12 of notFlags){
-            argv._.push(key12);
+        for (const key of notFlags){
+            argv._.push(key);
         }
     }
     return argv;
@@ -10365,7 +10365,7 @@ function promisify(original) {
         });
     }
     const argumentNames = original[kCustomPromisifyArgsSymbol];
-    function fn1(...args) {
+    function fn(...args) {
         return new Promise((resolve, reject)=>{
             args.push((err, ...values)=>{
                 if (err) {
@@ -10384,14 +10384,14 @@ function promisify(original) {
             Reflect.apply(original, this, args);
         });
     }
-    Object.setPrototypeOf(fn1, Object.getPrototypeOf(original));
-    Object.defineProperty(fn1, kCustomPromisifiedSymbol, {
-        value: fn1,
+    Object.setPrototypeOf(fn, Object.getPrototypeOf(original));
+    Object.defineProperty(fn, kCustomPromisifiedSymbol, {
+        value: fn,
         enumerable: false,
         writable: false,
         configurable: true
     });
-    return Object.defineProperties(fn1, Object.getOwnPropertyDescriptors(original));
+    return Object.defineProperties(fn, Object.getOwnPropertyDescriptors(original));
 }
 let signalsToNamesMapping;
 function getSignalsToNamesMapping() {
@@ -10645,13 +10645,13 @@ Buffer1.concat = function concat(list, length) {
     }
     const buffer = Buffer1.allocUnsafe(length);
     let pos = 0;
-    for(let i1 = 0; i1 < list.length; i1++){
-        const buf = list[i1];
+    for(let i = 0; i < list.length; i++){
+        const buf = list[i];
         if (!isUint8Array(buf)) {
-            throw new codes.ERR_INVALID_ARG_TYPE(`list[${i1}]`, [
+            throw new codes.ERR_INVALID_ARG_TYPE(`list[${i}]`, [
                 "Buffer",
                 "Uint8Array"
-            ], list[i1]);
+            ], list[i]);
         }
         pos += _copyActual(buf, buffer, pos, 0, buf.length);
     }
@@ -13080,8 +13080,8 @@ function _destroy(self, err, cb) {
                 });
             }
         }
-    } catch (err1) {
-        onDestroy(err1);
+    } catch (err) {
+        onDestroy(err);
     }
 }
 function emitErrorCloseNT(self, err) {
@@ -13613,8 +13613,8 @@ var O = g((zf, Kt)=>{
         let i = [], o = [], l = [];
         for (let f of t)X(typeof f == "string", "All expected entries have to be of type string"), Oi.includes(f) ? i.push(f.toLowerCase()) : qi.test(f) ? o.push(f) : (X(f !== "object", 'The value "object" should be written as "Object"'), l.push(f));
         if (o.length > 0) {
-            let f1 = i.indexOf("object");
-            f1 !== -1 && (i.splice(i, f1, 1), o.push("Object"));
+            let f = i.indexOf("object");
+            f !== -1 && (i.splice(i, f, 1), o.push("Object"));
         }
         if (i.length > 0) {
             switch(i.length){
@@ -13626,8 +13626,8 @@ var O = g((zf, Kt)=>{
                     break;
                 default:
                     {
-                        let f2 = i.pop();
-                        r += `one of type ${i.join(", ")}, or ${f2}`;
+                        let f = i.pop();
+                        r += `one of type ${i.join(", ")}, or ${f}`;
                     }
             }
             (o.length > 0 || l.length > 0) && (r += " or ");
@@ -13642,8 +13642,8 @@ var O = g((zf, Kt)=>{
                     break;
                 default:
                     {
-                        let f3 = o.pop();
-                        r += `an instance of ${o.join(", ")}, or ${f3}`;
+                        let f = o.pop();
+                        r += `an instance of ${o.join(", ")}, or ${f}`;
                     }
             }
             l.length > 0 && (r += " or ");
@@ -13659,8 +13659,8 @@ var O = g((zf, Kt)=>{
                 break;
             default:
                 {
-                    let f4 = l.pop();
-                    r += `one of ${l.join(", ")}, or ${f4}`;
+                    let f = l.pop();
+                    r += `one of ${l.join(", ")}, or ${f}`;
                 }
         }
         if (n == null) r += `. Received ${n}`;
@@ -13671,10 +13671,10 @@ var O = g((zf, Kt)=>{
                 depth: -1
             })}`;
         } else {
-            let f5 = Re(n, {
+            let f = Re(n, {
                 colors: !1
             });
-            f5.length > 25 && (f5 = `${f5.slice(0, 25)}...`), r += `. Received type ${typeof n} (${f5})`;
+            f.length > 25 && (f = `${f.slice(0, 25)}...`), r += `. Received type ${typeof n} (${f})`;
         }
         return r;
     }, TypeError);
@@ -14063,9 +14063,9 @@ var xn = g((Zf, lt)=>{
                         }));
                     }
                     f.push(Mn);
-                } catch (I1) {
-                    let M1 = In(I1);
-                    Zo(M1, void 0, D), f.push(M1);
+                } catch (I) {
+                    let M = In(I);
+                    Zo(M, void 0, D), f.push(M);
                 } finally{
                     var p;
                     h = !0, b && (b(), b = null), t == null || (p = t.signal) === null || p === void 0 || p.removeEventListener("abort", s);
@@ -14159,20 +14159,20 @@ var xn = g((Zf, lt)=>{
         }
         let o = new Nn, l = o.signal;
         if (n != null && n.signal) {
-            let a1 = {
+            let a = {
                 once: !0,
                 [Yo]: this
             };
-            n.signal.addEventListener("abort", ()=>o.abort(), a1);
+            n.signal.addEventListener("abort", ()=>o.abort(), a);
         }
         let u = !1;
         try {
-            for await (let a2 of this){
+            for await (let a of this){
                 var f;
                 if (u = !0, n != null && (f = n.signal) !== null && f !== void 0 && f.aborted) throw new $;
-                i ? t = await e(t, a2, {
+                i ? t = await e(t, a, {
                     signal: l
-                }) : (t = a2, i = !0);
+                }) : (t = a, i = !0);
             }
             if (!u && !i) throw new it;
         } finally{
@@ -14552,8 +14552,8 @@ var ct = g((lu, Qn)=>{
                 if (await b, d) return;
             }
             if (typeof r.return == "function") {
-                let { value: b1  } = await r.return();
-                await b1;
+                let { value: b  } = await r.return();
+                await b;
             }
         }
         async function f() {
@@ -14567,8 +14567,8 @@ var ct = g((lu, Qn)=>{
                         if (o.push(s)) continue;
                         l = !1;
                     }
-                } catch (a1) {
-                    o.destroy(a1);
+                } catch (a) {
+                    o.destroy(a);
                 }
                 break;
             }
@@ -14866,8 +14866,8 @@ var we = g((au, dr)=>{
                     await new Kl(r);
                 }
             }
-        } catch (l1) {
-            throw i = Zn(i, l1), i;
+        } catch (l) {
+            throw i = Zn(i, l), i;
         } finally{
             (i || t?.destroyOnReturn !== !1) && (i === void 0 || e._readableState.autoDestroy) ? ue.destroyer(e, null) : (e.off("readable", r), o());
         }
@@ -15157,9 +15157,9 @@ var Tt = g((fu, Ar)=>{
             e.length -= u, l((t = e.errored) !== null && t !== void 0 ? t : new ge("write"));
         }
         let n = e[de].splice(0);
-        for(let i1 = 0; i1 < n.length; i1++){
+        for(let i = 0; i < n.length; i++){
             var r;
-            n[i1]((r = e.errored) !== null && r !== void 0 ? r : new ge("end"));
+            n[i]((r = e.errored) !== null && r !== void 0 ? r : new ge("end"));
         }
         Ue(e);
     }
@@ -15176,10 +15176,10 @@ var Tt = g((fu, Ar)=>{
             f.allBuffers = t.allBuffers, cr(e, t, !0, t.length, f, "", u), Ue(t);
         } else {
             do {
-                let { chunk: u1 , encoding: f1 , callback: a  } = n[l];
+                let { chunk: u , encoding: f , callback: a  } = n[l];
                 n[l++] = null;
-                let c = i ? 1 : u1.length;
-                cr(e, t, !1, c, u1, f1, a);
+                let c = i ? 1 : u.length;
+                cr(e, t, !1, c, u, f, a);
             }while (l < n.length && !t.writing)
             l === n.length ? Ue(t) : l > 256 ? (n.splice(0, l), t.bufferedIndex = 0) : t.bufferedIndex = l;
         }
@@ -15242,8 +15242,8 @@ var Tt = g((fu, Ar)=>{
         let n = t[de].splice(0);
         for(let r = 0; r < n.length; r++)n[r]();
         if (e.emit("finish"), t.autoDestroy) {
-            let r1 = e._readableState;
-            (!r1 || r1.autoDestroy && (r1.endEmitted || r1.readable === !1)) && e.destroy();
+            let r = e._readableState;
+            (!r || r.autoDestroy && (r.endEmitted || r.readable === !1)) && e.destroy();
         }
     }
     ma(S.prototype, {
@@ -15420,20 +15420,20 @@ var kr = g((uu, Pr)=>{
             writable: !1
         });
         if (typeof t?.writable == "object" || typeof t?.readable == "object") {
-            let i1 = t != null && t.readable ? Tr(t?.readable) ? t?.readable : e(t.readable) : void 0, o1 = t != null && t.writable ? Ir(t?.writable) ? t?.writable : e(t.writable) : void 0;
+            let i = t != null && t.readable ? Tr(t?.readable) ? t?.readable : e(t.readable) : void 0, o = t != null && t.writable ? Ir(t?.writable) ? t?.writable : e(t.writable) : void 0;
             return Ge({
-                readable: i1,
-                writable: o1
+                readable: i,
+                writable: o
             });
         }
         let r = t?.then;
         if (typeof r == "function") {
-            let i2;
+            let i;
             return xr(r, t, (o)=>{
-                o != null && i2.push(o), i2.push(null);
+                o != null && i.push(o), i.push(null);
             }, (o)=>{
-                ce(i2, o);
-            }), i2 = new ne({
+                ce(i, o);
+            }), i = new ne({
                 objectMode: !0,
                 writable: !1,
                 read () {}
@@ -15738,8 +15738,8 @@ var Ye = g((hu, zr)=>{
             t.writableNeedDrain && await u();
             for await (let a of e)t.write(a) || await u();
             r && t.end(), await u(), n();
-        } catch (a1) {
-            n(i !== a1 ? hf(i, a1) : a1);
+        } catch (a) {
+            n(i !== a ? hf(i, a) : a);
         } finally{
             f(), t.off("drain", l);
         }
@@ -15792,29 +15792,29 @@ var Ye = g((hu, zr)=>{
             } else {
                 var D;
                 Ct || (Ct = Pt());
-                let P1 = new Ct({
+                let P = new Ct({
                     objectMode: !0
-                }), U1 = (D = h) === null || D === void 0 ? void 0 : D.then;
-                if (typeof U1 == "function") s++, U1.call(h, (ie)=>{
-                    a = ie, ie != null && P1.write(ie), F && P1.end(), He.nextTick(b);
+                }), U = (D = h) === null || D === void 0 ? void 0 : D.then;
+                if (typeof U == "function") s++, U.call(h, (ie)=>{
+                    a = ie, ie != null && P.write(ie), F && P.end(), He.nextTick(b);
                 }, (ie)=>{
-                    P1.destroy(ie), He.nextTick(b, ie);
+                    P.destroy(ie), He.nextTick(b, ie);
                 });
-                else if (be(h, !0)) s++, Vr(h, P1, b, {
+                else if (be(h, !0)) s++, Vr(h, P, b, {
                     end: F
                 });
                 else throw new kt("AsyncIterable or Promise", "destination", h);
-                h = P1;
-                let { destroy: ze1 , cleanup: _i  } = Hr(h, !1, !0);
-                c.push(ze1), re && l.push(_i);
+                h = P;
+                let { destroy: ze , cleanup: _i  } = Hr(h, !1, !0);
+                c.push(ze), re && l.push(_i);
             }
             else if (Gr(p)) {
                 if ($t(h)) {
                     s += 2;
-                    let P2 = Tf(h, p, b, {
+                    let P = Tf(h, p, b, {
                         end: F
                     });
-                    Wt(p) && re && l.push(P2);
+                    Wt(p) && re && l.push(P);
                 } else if (be(h)) s++, Vr(h, p, b, {
                     end: F
                 });
@@ -15865,9 +15865,9 @@ var ei = g((bu, Zr)=>{
             let d = t.length - 1;
             t[d] = Ke.from(t[d]);
         }
-        for(let d1 = 0; d1 < t.length; ++d1)if (!!Nf(t[d1])) {
-            if (d1 < t.length - 1 && !Xr(t[d1])) throw new Qr(`streams[${d1}]`, n[d1], "must be readable");
-            if (d1 > 0 && !Jr(t[d1])) throw new Qr(`streams[${d1}]`, n[d1], "must be writable");
+        for(let d = 0; d < t.length; ++d)if (!!Nf(t[d])) {
+            if (d < t.length - 1 && !Xr(t[d])) throw new Qr(`streams[${d}]`, n[d], "must be readable");
+            if (d > 0 && !Jr(t[d])) throw new Qr(`streams[${d}]`, n[d], "must be writable");
         }
         let r, i, o, l, u;
         function f(d) {
@@ -15965,22 +15965,22 @@ var di = g((pu, si)=>{
             writable: !0
         });
     }
-    for (let e1 of ii(ri)){
-        let n1 = function(...i) {
+    for (let e of ii(ri)){
+        let n = function(...i) {
             if (new.target) throw ai();
-            return oi(t1, this, i);
+            return oi(t, this, i);
         };
-        n1;
-        let t1 = ri[e1];
-        H(n1, "name", {
+        n;
+        let t = ri[e];
+        H(n, "name", {
             __proto__: null,
-            value: t1.name
-        }), H(n1, "length", {
+            value: t.name
+        }), H(n, "length", {
             __proto__: null,
-            value: t1.length
-        }), H(R.Readable.prototype, e1, {
+            value: t.length
+        }), H(R.Readable.prototype, e, {
             __proto__: null,
-            value: n1,
+            value: n,
             enumerable: !1,
             configurable: !0,
             writable: !0
@@ -16098,9 +16098,9 @@ Readable.fromWeb = function(readableStream, options = kEmptyObject) {
             function done() {
                 try {
                     callback(error);
-                } catch (error1) {
+                } catch (error) {
                     process1.nextTick(()=>{
-                        throw error1;
+                        throw error;
                     });
                 }
             }
@@ -16142,8 +16142,8 @@ Writable.fromWeb = function(writableStream, options = kEmptyObject) {
                 error = error.filter((e)=>e);
                 try {
                     callback(error.length === 0 ? undefined : error);
-                } catch (error1) {
-                    process1.nextTick(()=>destroy.call(writable, error1));
+                } catch (error) {
+                    process1.nextTick(()=>destroy.call(writable, error));
                 }
             }
             writer.ready.then(()=>Promise.all(chunks.map((data)=>writer.write(data.chunk))).then(done, done), done);
@@ -16156,8 +16156,8 @@ Writable.fromWeb = function(writableStream, options = kEmptyObject) {
             function done(error) {
                 try {
                     callback(error);
-                } catch (error1) {
-                    destroy(this, duplex, error1);
+                } catch (error) {
+                    destroy(this, duplex, error);
                 }
             }
             writer.ready.then(()=>writer.write(chunk).then(done, done), done);
@@ -16166,9 +16166,9 @@ Writable.fromWeb = function(writableStream, options = kEmptyObject) {
             function done() {
                 try {
                     callback(error);
-                } catch (error1) {
+                } catch (error) {
                     process1.nextTick(()=>{
-                        throw error1;
+                        throw error;
                     });
                 }
             }
@@ -16186,8 +16186,8 @@ Writable.fromWeb = function(writableStream, options = kEmptyObject) {
             function done(error) {
                 try {
                     callback(error);
-                } catch (error1) {
-                    process1.nextTick(()=>destroy.call(writable, error1));
+                } catch (error) {
+                    process1.nextTick(()=>destroy.call(writable, error));
                 }
             }
             if (!closed) {
@@ -16237,8 +16237,8 @@ Duplex.fromWeb = function(pair, options = kEmptyObject) {
                 error = error.filter((e)=>e);
                 try {
                     callback(error.length === 0 ? undefined : error);
-                } catch (error1) {
-                    process1.nextTick(()=>destroy(duplex1, error1));
+                } catch (error) {
+                    process1.nextTick(()=>destroy(duplex1, error));
                 }
             }
             writer.ready.then(()=>Promise.all(chunks.map((data)=>writer.write(data.chunk))).then(done, done), done);
@@ -16251,8 +16251,8 @@ Duplex.fromWeb = function(pair, options = kEmptyObject) {
             function done(error) {
                 try {
                     callback(error);
-                } catch (error1) {
-                    destroy(duplex1, error1);
+                } catch (error) {
+                    destroy(duplex1, error);
                 }
             }
             writer.ready.then(()=>writer.write(chunk).then(done, done), done);
@@ -16261,8 +16261,8 @@ Duplex.fromWeb = function(pair, options = kEmptyObject) {
             function done(error) {
                 try {
                     callback(error);
-                } catch (error1) {
-                    process1.nextTick(()=>destroy(duplex1, error1));
+                } catch (error) {
+                    process1.nextTick(()=>destroy(duplex1, error));
                 }
             }
             if (!writableClosed) {
@@ -16282,9 +16282,9 @@ Duplex.fromWeb = function(pair, options = kEmptyObject) {
             function done() {
                 try {
                     callback(error);
-                } catch (error1) {
+                } catch (error) {
                     process1.nextTick(()=>{
-                        throw error1;
+                        throw error;
                     });
                 }
             }
@@ -16502,17 +16502,17 @@ function newReadableWritablePairFromDuplex(duplex1) {
             writable
         };
     }
-    const writable1 = isWritable1(duplex1) ? newWritableStreamFromStreamWritable(duplex1) : new WritableStream();
+    const writable = isWritable1(duplex1) ? newWritableStreamFromStreamWritable(duplex1) : new WritableStream();
     if (!isWritable1(duplex1)) {
-        writable1.close();
+        writable.close();
     }
-    const readable1 = isReadable1(duplex1) ? newReadableStreamFromStreamReadable(duplex1) : new ReadableStream();
+    const readable = isReadable1(duplex1) ? newReadableStreamFromStreamReadable(duplex1) : new ReadableStream();
     if (!isReadable1(duplex1)) {
-        readable1.cancel();
+        readable.cancel();
     }
     return {
-        writable: writable1,
-        readable: readable1
+        writable,
+        readable
     };
 }
 Readable.toWeb = newReadableStreamFromStreamReadable;
@@ -16881,21 +16881,21 @@ class ChannelWrap extends AsyncWrap {
             ret: ret
         };
     }
-    async #resolve(query1, recordType1, resolveOptions1) {
-        let ret1 = [];
-        let code1 = 0;
+    async #resolve(query1, recordType1, resolveOptions) {
+        let ret = [];
+        let code = 0;
         try {
-            ret1 = await Deno.resolveDns(query1, recordType1, resolveOptions1);
+            ret = await Deno.resolveDns(query1, recordType1, resolveOptions);
         } catch (e) {
             if (e instanceof Deno.errors.NotFound) {
-                code1 = codeMap.get("EAI_NODATA");
+                code = codeMap.get("EAI_NODATA");
             } else {
-                code1 = codeMap.get("UNKNOWN");
+                code = codeMap.get("UNKNOWN");
             }
         }
         return {
-            code: code1,
-            ret: ret1
+            code,
+            ret
         };
     }
     queryAny(req, name) {
@@ -17306,8 +17306,8 @@ class LibuvStreamWrap extends HandleWrap {
                 buffers[i] = Buffer1.from(chunk, encoding);
             }
         } else {
-            for(let i1 = 0; i1 < count; i1++){
-                buffers[i1] = chunks[i1];
+            for(let i = 0; i < count; i++){
+                buffers[i] = chunks[i];
             }
         }
         return this.writeBuffer(req, Buffer1.concat(buffers));
@@ -17345,10 +17345,10 @@ class LibuvStreamWrap extends HandleWrap {
         let nread;
         try {
             nread = await this[kStreamBaseField].read(buf);
-        } catch (e1) {
-            if (e1 instanceof Deno.errors.Interrupted || e1 instanceof Deno.errors.BadResource) {
+        } catch (e) {
+            if (e instanceof Deno.errors.Interrupted || e instanceof Deno.errors.BadResource) {
                 nread = codeMap.get("EOF");
-            } else if (e1 instanceof Deno.errors.ConnectionReset || e1 instanceof Deno.errors.ConnectionAborted) {
+            } else if (e instanceof Deno.errors.ConnectionReset || e instanceof Deno.errors.ConnectionAborted) {
                 nread = codeMap.get("ECONNRESET");
             } else {
                 nread = codeMap.get("UNKNOWN");
@@ -17370,12 +17370,12 @@ class LibuvStreamWrap extends HandleWrap {
         }
     }
     async #write(req, data) {
-        const { byteLength: byteLength1  } = data;
+        const { byteLength  } = data;
         try {
             await writeAll(this[kStreamBaseField], data);
-        } catch (e11) {
+        } catch (e) {
             let status;
-            if (e11 instanceof Deno.errors.BadResource || e11 instanceof Deno.errors.BrokenPipe) {
+            if (e instanceof Deno.errors.BadResource || e instanceof Deno.errors.BrokenPipe) {
                 status = codeMap.get("EBADF");
             } else {
                 status = codeMap.get("UNKNOWN");
@@ -17385,8 +17385,8 @@ class LibuvStreamWrap extends HandleWrap {
             } catch  {}
             return;
         }
-        streamBaseState[kBytesWritten] = byteLength1;
-        this.bytesWritten += byteLength1;
+        streamBaseState[kBytesWritten] = byteLength;
+        this.bytesWritten += byteLength;
         try {
             req.oncomplete(0);
         } catch  {}
@@ -17491,8 +17491,8 @@ class MuxAsyncIterator {
                     value
                 });
             }
-        } catch (e2) {
-            this.#throws.push(e2);
+        } catch (e) {
+            this.#throws.push(e);
         }
         this.#signal.resolve();
     }
@@ -17693,8 +17693,8 @@ class Pipe extends ConnectionWrap {
         let connection;
         try {
             connection = await this.#listener.accept();
-        } catch (e3) {
-            if (e3 instanceof Deno.errors.BadResource && this.#closed) {
+        } catch (e) {
+            if (e instanceof Deno.errors.BadResource && this.#closed) {
                 return;
             }
             try {
@@ -17908,18 +17908,18 @@ class TCP extends ConnectionWrap {
     setSimultaneousAccepts(_enable) {
         notImplemented("TCP.prototype.setSimultaneousAccepts");
     }
-    #bind(address, port1, _flags) {
+    #bind(address, port, _flags) {
         this.#address = address;
-        this.#port = port1;
+        this.#port = port;
         return 0;
     }
-    #connect(req1, address1, port11) {
+    #connect(req1, address1, port1) {
         this.#remoteAddress = address1;
-        this.#remotePort = port11;
+        this.#remotePort = port1;
         this.#remoteFamily = isIP(address1);
         const connectOptions = {
             hostname: address1,
-            port: port11,
+            port: port1,
             transport: "tcp"
         };
         Deno.connect(connectOptions).then((conn)=>{
@@ -17957,11 +17957,11 @@ class TCP extends ConnectionWrap {
             this.#acceptBackoff();
             return;
         }
-        let connection1;
+        let connection;
         try {
-            connection1 = await this.#listener.accept();
-        } catch (e4) {
-            if (e4 instanceof Deno.errors.BadResource && this.#closed) {
+            connection = await this.#listener.accept();
+        } catch (e) {
+            if (e instanceof Deno.errors.BadResource && this.#closed) {
                 return;
             }
             try {
@@ -17971,10 +17971,10 @@ class TCP extends ConnectionWrap {
             return;
         }
         this.#acceptBackoffDelay = undefined;
-        const connectionHandle1 = new TCP(socketType1.SOCKET, connection1);
+        const connectionHandle = new TCP(socketType1.SOCKET, connection);
         this.#connections++;
         try {
-            this.onconnection(0, connectionHandle1);
+            this.onconnection(0, connectionHandle);
         } catch  {}
         return this.#accept();
     }
@@ -18157,26 +18157,26 @@ class UDP extends HandleWrap {
         let listener;
         try {
             listener = DenoListenDatagram(listenOptions);
-        } catch (e5) {
-            if (e5 instanceof Deno.errors.AddrInUse) {
+        } catch (e) {
+            if (e instanceof Deno.errors.AddrInUse) {
                 return codeMap.get("EADDRINUSE");
-            } else if (e5 instanceof Deno.errors.AddrNotAvailable) {
+            } else if (e instanceof Deno.errors.AddrNotAvailable) {
                 return codeMap.get("EADDRNOTAVAIL");
-            } else if (e5 instanceof Deno.errors.PermissionDenied) {
-                throw e5;
+            } else if (e instanceof Deno.errors.PermissionDenied) {
+                throw e;
             }
             return codeMap.get("UNKNOWN");
         }
-        const address2 = listener.addr;
-        this.#address = address2.hostname;
-        this.#port = address2.port;
+        const address = listener.addr;
+        this.#address = address.hostname;
+        this.#port = address.port;
         this.#family = family === AF_INET6 ? "IPv6" : "IPv4";
         this.#listener = listener;
         return 0;
     }
-    #doConnect(ip1, port12, family1) {
+    #doConnect(ip1, port11, family1) {
         this.#remoteAddress = ip1;
-        this.#remotePort = port12;
+        this.#remotePort = port11;
         this.#remoteFamily = family1 === AF_INET6 ? "IPv6" : "IPv4";
         return 0;
     }
@@ -18228,29 +18228,29 @@ class UDP extends HandleWrap {
             return;
         }
         const p = new Uint8Array(this.#recvBufferSize);
-        let buf1;
+        let buf;
         let remoteAddr;
-        let nread1;
+        let nread;
         try {
-            [buf1, remoteAddr] = await this.#listener.receive(p);
-            nread1 = buf1.length;
-        } catch (e12) {
-            if (e12 instanceof Deno.errors.Interrupted || e12 instanceof Deno.errors.BadResource) {
-                nread1 = 0;
+            [buf, remoteAddr] = await this.#listener.receive(p);
+            nread = buf.length;
+        } catch (e) {
+            if (e instanceof Deno.errors.Interrupted || e instanceof Deno.errors.BadResource) {
+                nread = 0;
             } else {
-                nread1 = codeMap.get("UNKNOWN");
+                nread = codeMap.get("UNKNOWN");
             }
-            buf1 = new Uint8Array(0);
+            buf = new Uint8Array(0);
             remoteAddr = null;
         }
-        nread1 ??= 0;
+        nread ??= 0;
         const rinfo = remoteAddr ? {
             address: remoteAddr.hostname,
             port: remoteAddr.port,
             family: isIP(remoteAddr.hostname) === 6 ? "IPv6" : "IPv4"
         } : undefined;
         try {
-            this.onmessage(nread1, this, Buffer1.from(buf1), rinfo);
+            this.onmessage(nread, this, Buffer1.from(buf), rinfo);
         } catch  {}
         this.#receive();
     }
@@ -19259,11 +19259,11 @@ function handleWriteReq(req, data, encoding) {
         default:
             {
                 const buffer = Buffer1.from(data, encoding);
-                const ret1 = handle.writeBuffer(req, buffer);
+                const ret = handle.writeBuffer(req, buffer);
                 if (streamBaseState[kLastWriteWasAsync]) {
                     req.buffer = buffer;
                 }
-                return ret1;
+                return ret;
             }
     }
 }
@@ -19314,10 +19314,10 @@ function writevGeneric(owner, data, cb) {
         }
     } else {
         chunks = new Array(data.length << 1);
-        for(let i1 = 0; i1 < data.length; i1++){
-            const entry = data[i1];
-            chunks[i1 * 2] = entry.chunk;
-            chunks[i1 * 2 + 1] = entry.encoding;
+        for(let i = 0; i < data.length; i++){
+            const entry = data[i];
+            chunks[i * 2] = entry.chunk;
+            chunks[i * 2 + 1] = entry.encoding;
         }
     }
     const err = req.handle.writev(req, chunks, allBuffers);
@@ -19395,9 +19395,9 @@ function onStreamRead(arrayBuffer, nread) {
             stream.on("end", stream[kMaybeDestroy]);
         }
         if (handle.readStop) {
-            const err1 = handle.readStop();
-            if (err1) {
-                stream.destroy(errnoException(err1, "read"));
+            const err = handle.readStop();
+            if (err) {
+                stream.destroy(errnoException(err, "read"));
                 return;
             }
         }
@@ -19506,13 +19506,13 @@ class Resolver {
             const addrSplitMatch = serv.match(addrSplitRE);
             if (addrSplitMatch) {
                 const hostIP = addrSplitMatch[1];
-                const port1 = addrSplitMatch[2] || `${53}`;
+                const port = addrSplitMatch[2] || `${53}`;
                 ipVersion = isIP(hostIP);
                 if (ipVersion !== 0) {
                     return newSet.push([
                         ipVersion,
                         hostIP,
-                        Number.parseInt(port1)
+                        Number.parseInt(port)
                     ]);
                 }
             }
@@ -19724,9 +19724,9 @@ function encode2(str) {
     }
     while(handledCPCount < inputLength){
         let m = 2147483647;
-        for (const currentValue1 of input){
-            if (currentValue1 >= n && currentValue1 < m) {
-                m = currentValue1;
+        for (const currentValue of input){
+            if (currentValue >= n && currentValue < m) {
+                m = currentValue;
             }
         }
         const handledCPCountPlusOne = handledCPCount + 1;
@@ -19735,11 +19735,11 @@ function encode2(str) {
         }
         delta += (m - n) * handledCPCountPlusOne;
         n = m;
-        for (const currentValue2 of input){
-            if (currentValue2 < n && ++delta > 2147483647) {
+        for (const currentValue of input){
+            if (currentValue < n && ++delta > 2147483647) {
                 error("overflow");
             }
-            if (currentValue2 == n) {
+            if (currentValue == n) {
                 let q = delta;
                 for(let k = 36;; k += base){
                     const t = k <= bias ? 1 : k >= bias + 26 ? 26 : k - bias;
@@ -20557,14 +20557,14 @@ class Printf {
                             this.handleWidthOrPrecisionRef(WorP.PRECISION);
                             break;
                         }
-                        const val1 = parseInt(c);
-                        if (isNaN(val1)) {
+                        const val = parseInt(c);
+                        if (isNaN(val)) {
                             this.i--;
                             this.state = State.PERCENT;
                             return;
                         }
                         flags.precision *= 10;
-                        flags.precision += val1;
+                        flags.precision += val;
                         break;
                     }
                 default:
@@ -21002,11 +21002,11 @@ function debuglog(set, cb) {
 let debugEnv;
 try {
     debugEnv = Deno.env.get("NODE_DEBUG") ?? "";
-} catch (error1) {
-    if (error1 instanceof Deno.errors.PermissionDenied) {
+} catch (error) {
+    if (error instanceof Deno.errors.PermissionDenied) {
         debugEnv = "";
     } else {
-        throw error1;
+        throw error;
     }
 }
 initializeDebugEnv(debugEnv);
@@ -21239,10 +21239,10 @@ function _internalConnect(socket, address, port, addressType, localAddress, loca
             err = socket._handle.connect6(req, address, port);
         }
     } else {
-        const req1 = new PipeConnectWrap();
-        req1.oncomplete = _afterConnect;
-        req1.address = address;
-        err = socket._handle.connect(req1, address);
+        const req = new PipeConnectWrap();
+        req.oncomplete = _afterConnect;
+        req.address = address;
+        err = socket._handle.connect(req, address);
     }
     if (err) {
         let details = "";
@@ -21250,8 +21250,8 @@ function _internalConnect(socket, address, port, addressType, localAddress, loca
         if (sockname) {
             details = `${sockname.address}:${sockname.port}`;
         }
-        const ex1 = exceptionWithHostPort(err, "connect", address, port, details);
-        socket.destroy(ex1);
+        const ex = exceptionWithHostPort(err, "connect", address, port, details);
+        socket.destroy(ex);
     }
 }
 function _writeAfterFIN(chunk, encoding, cb) {
@@ -22518,8 +22518,8 @@ function Agent(options) {
             }
             return;
         }
-        const req1 = socket._httpMessage;
-        if (!req1 || !req1.shouldKeepAlive || !this.keepAlive) {
+        const req = socket._httpMessage;
+        if (!req || !req.shouldKeepAlive || !this.keepAlive) {
             socket.destroy();
             return;
         }
@@ -22968,9 +22968,9 @@ function innerDeepEqual(val1, val2, strict, memos = memo) {
         } else if (!areSimilarTypedArrays(val1, val2)) {
             return false;
         }
-        const filter1 = strict ? 2 : 2 | 16;
-        const keysVal1 = getOwnNonIndexProperties(val1, filter1);
-        const keysVal2 = getOwnNonIndexProperties(val2, filter1);
+        const filter = strict ? 2 : 2 | 16;
+        const keysVal1 = getOwnNonIndexProperties(val1, filter);
+        const keysVal2 = getOwnNonIndexProperties(val2, filter);
         if (keysVal1.length !== keysVal2.length) {
             return false;
         }
@@ -23033,8 +23033,8 @@ function keyCheck(val1, val2, strict, memos, iterationType, aKeys = []) {
                 return false;
             }
         } else {
-            const symbolKeysB1 = Object.getOwnPropertySymbols(val2);
-            if (symbolKeysB1.length !== 0 && getEnumerables(val2, symbolKeysB1).length !== 0) {
+            const symbolKeysB = Object.getOwnPropertySymbols(val2);
+            if (symbolKeysB.length !== 0 && getEnumerables(val2, symbolKeysB).length !== 0) {
                 return false;
             }
         }
@@ -23152,8 +23152,8 @@ function objEquiv(obj1, obj2, strict, keys, memos, iterationType) {
         }
     }
     for(i = 0; i < keys.length; i++){
-        const key1 = keys[i];
-        if (!innerDeepEqual(obj1[key1], obj2[key1], strict, memos)) {
+        const key = keys[i];
+        if (!innerDeepEqual(obj1[key], obj2[key], strict, memos)) {
             return false;
         }
     }
@@ -23210,10 +23210,10 @@ function setEquiv(set1, set2, strict, memos) {
         }
     }
     if (set !== null) {
-        for (const item1 of set2){
-            if (typeof item1 === "object" && item1 !== null) {
-                if (!setHasEqualElement(set, item1, strict, memos)) return false;
-            } else if (!strict && !set1.has(item1) && !setHasEqualElement(set, item1, strict, memos)) {
+        for (const item of set2){
+            if (typeof item === "object" && item !== null) {
+                if (!setHasEqualElement(set, item, strict, memos)) return false;
+            } else if (!strict && !set1.has(item) && !setHasEqualElement(set, item, strict, memos)) {
                 return false;
             }
         }
@@ -23255,12 +23255,12 @@ function mapEquiv(map1, map2, strict, memos) {
         }
     }
     if (set !== null) {
-        for (const { 0: key1 , 1: item  } of map2){
-            if (typeof key1 === "object" && key1 !== null) {
-                if (!mapHasEqualEntry(set, map1, key1, item, strict, memos)) {
+        for (const { 0: key , 1: item  } of map2){
+            if (typeof key === "object" && key !== null) {
+                if (!mapHasEqualEntry(set, map1, key, item, strict, memos)) {
                     return false;
                 }
-            } else if (!strict && (!map1.has(key1) || !innerDeepEqual(map1.get(key1), item, false, memos)) && !mapHasEqualEntry(set, map1, key1, item, false, memos)) {
+            } else if (!strict && (!map1.has(key) || !innerDeepEqual(map1.get(key), item, false, memos)) && !mapHasEqualEntry(set, map1, key, item, false, memos)) {
                 return false;
             }
         }
@@ -23722,8 +23722,8 @@ function _storeHeader(firstLine, headers) {
         } else if (Array.isArray(headers)) {
             if (headers.length && Array.isArray(headers[0])) {
                 for(let i = 0; i < headers.length; i++){
-                    const entry1 = headers[i];
-                    processHeader(this, state, entry1[0], entry1[1], true);
+                    const entry = headers[i];
+                    processHeader(this, state, entry[0], entry[1], true);
                 }
             } else {
                 if (headers.length % 2 !== 0) {
@@ -23734,9 +23734,9 @@ function _storeHeader(firstLine, headers) {
                 }
             }
         } else {
-            for(const key1 in headers){
-                if (Object.hasOwn(headers, key1)) {
-                    processHeader(this, state, key1, headers[key1], true);
+            for(const key in headers){
+                if (Object.hasOwn(headers, key)) {
+                    processHeader(this, state, key, headers[key], true);
                 }
             }
         }
@@ -24190,7 +24190,7 @@ const { WritableState , fromWeb: fromWeb2 , toWeb: toWeb2  } = mu;
 const { Deno: Deno2  } = globalThis;
 const noColor = typeof Deno2?.noColor === "boolean" ? Deno2.noColor : true;
 let enabled = !noColor;
-function code2(open, close) {
+function code(open, close) {
     return {
         open: `\x1b[${open.join(";")}m`,
         close: `\x1b[${close}m`,
@@ -24201,22 +24201,22 @@ function run(str, code) {
     return enabled ? `${code.open}${str.replace(code.regexp, code.open)}${code.close}` : str;
 }
 function bold(str) {
-    return run(str, code2([
+    return run(str, code([
         1
     ], 22));
 }
 function red(str) {
-    return run(str, code2([
+    return run(str, code([
         31
     ], 39));
 }
 function green(str) {
-    return run(str, code2([
+    return run(str, code([
         32
     ], 39));
 }
 function white(str) {
-    return run(str, code2([
+    return run(str, code([
         37
     ], 39));
 }
@@ -24224,17 +24224,17 @@ function gray(str) {
     return brightBlack(str);
 }
 function brightBlack(str) {
-    return run(str, code2([
+    return run(str, code([
         90
     ], 39));
 }
 function bgRed(str) {
-    return run(str, code2([
+    return run(str, code([
         41
     ], 49));
 }
 function bgGreen(str) {
-    return run(str, code2([
+    return run(str, code([
         42
     ], 49));
 }
@@ -24350,14 +24350,14 @@ function createErrDiff(actual, expected, operator) {
     }
     const maxLines = MathMax(actualLines.length, expectedLines.length);
     if (maxLines === 0) {
-        const actualLines1 = actualInspected.split("\n");
-        if (actualLines1.length > 50) {
-            actualLines1[46] = `${blue}...${defaultColor}`;
-            while(actualLines1.length > 47){
-                actualLines1.pop();
+        const actualLines = actualInspected.split("\n");
+        if (actualLines.length > 50) {
+            actualLines[46] = `${blue}...${defaultColor}`;
+            while(actualLines.length > 47){
+                actualLines.pop();
             }
         }
-        return `${kReadableOperator.notIdentical}\n\n${actualLines1.join("\n")}\n`;
+        return `${kReadableOperator.notIdentical}\n\n${actualLines.join("\n")}\n`;
     }
     if (i >= 5) {
         end = `\n${blue}...${defaultColor}${end}`;
@@ -24373,14 +24373,14 @@ function createErrDiff(actual, expected, operator) {
     const skippedMsg = ` ${blue}...${defaultColor} Lines skipped`;
     let lines = actualLines;
     let plusMinus = `${green1}+${defaultColor}`;
-    let maxLength1 = expectedLines.length;
+    let maxLength = expectedLines.length;
     if (actualLines.length < maxLines) {
         lines = expectedLines;
         plusMinus = `${red1}-${defaultColor}`;
-        maxLength1 = actualLines.length;
+        maxLength = actualLines.length;
     }
     for(i = 0; i < maxLines; i++){
-        if (maxLength1 < i + 1) {
+        if (maxLength < i + 1) {
             if (identical > 2) {
                 if (identical > 3) {
                     if (identical > 4) {
@@ -24500,33 +24500,33 @@ class AssertionError extends Error1 {
                     super(`${base}\n\n${res.join("\n")}\n`);
                 }
             } else {
-                let res1 = inspectValue(actual);
+                let res = inspectValue(actual);
                 let other = inspectValue(expected);
                 const knownOperator = kReadableOperator[operator ?? ""];
-                if (operator === "notDeepEqual" && res1 === other) {
-                    res1 = `${knownOperator}\n\n${res1}`;
-                    if (res1.length > 1024) {
-                        res1 = `${res1.slice(0, 1021)}...`;
+                if (operator === "notDeepEqual" && res === other) {
+                    res = `${knownOperator}\n\n${res}`;
+                    if (res.length > 1024) {
+                        res = `${res.slice(0, 1021)}...`;
                     }
-                    super(res1);
+                    super(res);
                 } else {
-                    if (res1.length > 512) {
-                        res1 = `${res1.slice(0, 509)}...`;
+                    if (res.length > 512) {
+                        res = `${res.slice(0, 509)}...`;
                     }
                     if (other.length > 512) {
                         other = `${other.slice(0, 509)}...`;
                     }
                     if (operator === "deepEqual") {
-                        res1 = `${knownOperator}\n\n${res1}\n\nshould loosely deep-equal\n\n`;
+                        res = `${knownOperator}\n\n${res}\n\nshould loosely deep-equal\n\n`;
                     } else {
                         const newOp = kReadableOperator[`${operator}Unequal`];
                         if (newOp) {
-                            res1 = `${newOp}\n\n${res1}\n\nshould not loosely deep-equal\n\n`;
+                            res = `${newOp}\n\n${res}\n\nshould not loosely deep-equal\n\n`;
                         } else {
                             other = ` ${operator} ${other}`;
                         }
                     }
-                    super(`${res1}${other}`);
+                    super(`${res}${other}`);
                 }
             }
         }
@@ -24710,9 +24710,9 @@ function diff(A, B) {
                 id: ptr
             };
         } else {
-            const prev1 = down.id;
+            const prev = down.id;
             ptr++;
-            routes[ptr] = prev1;
+            routes[ptr] = prev;
             routes[ptr + diffTypesPtrOffset] = REMOVED;
             return {
                 y: down.y + 1,
@@ -24743,8 +24743,8 @@ function diff(A, B) {
         for(let k = -p; k < delta; ++k){
             fp[k + offset] = snake(k, fp[k - 1 + offset], fp[k + 1 + offset], offset, A, B);
         }
-        for(let k1 = delta + p; k1 > delta; --k1){
-            fp[k1 + offset] = snake(k1, fp[k1 - 1 + offset], fp[k1 + 1 + offset], offset, A, B);
+        for(let k = delta + p; k > delta; --k){
+            fp[k + offset] = snake(k, fp[k - 1 + offset], fp[k + 1 + offset], offset, A, B);
         }
         fp[delta + offset] = snake(delta, fp[delta - 1 + offset], fp[delta + 1 + offset], offset, A, B);
     }
@@ -24777,18 +24777,18 @@ function diffstr(A, B) {
             }
             return tokens.filter((token)=>token);
         } else {
-            const tokens1 = [], lines = string.split(/(\n|\r\n)/);
+            const tokens = [], lines = string.split(/(\n|\r\n)/);
             if (!lines[lines.length - 1]) {
                 lines.pop();
             }
-            for(let i1 = 0; i1 < lines.length; i1++){
-                if (i1 % 2) {
-                    tokens1[tokens1.length - 1] += lines[i1];
+            for(let i = 0; i < lines.length; i++){
+                if (i % 2) {
+                    tokens[tokens.length - 1] += lines[i];
                 } else {
-                    tokens1.push(lines[i1]);
+                    tokens.push(lines[i]);
                 }
             }
-            return tokens1;
+            return tokens;
         }
     }
     function createDetails(line, tokens) {
@@ -25488,12 +25488,12 @@ function gotUnwantedException(e, expected, message, operator) {
         } else {
             const result = expected(e);
             if (result === true) {
-                let msg1 = `Got unwanted rejection.\nActual message: "${e.message}"`;
+                let msg = `Got unwanted rejection.\nActual message: "${e.message}"`;
                 if (message) {
-                    msg1 += ` ${String(message)}`;
+                    msg += ` ${String(message)}`;
                 }
                 throw new AssertionError({
-                    message: msg1,
+                    message: msg,
                     operator: operator.name
                 });
             }
@@ -27159,8 +27159,8 @@ const __default25 = {
     ...mod52
 };
 const hexTable = new Array(256);
-for(let i1 = 0; i1 < 256; ++i1){
-    hexTable[i1] = "%" + ((i1 < 16 ? "0" : "") + i1.toString(16)).toUpperCase();
+for(let i = 0; i < 256; ++i){
+    hexTable[i] = "%" + ((i < 16 ? "0" : "") + i.toString(16)).toUpperCase();
 }
 new Int8Array([
     0,
@@ -27819,9 +27819,9 @@ function parse7(str, sep = "&", eq = "=", { decodeURIComponent: decodeURICompone
             if (eqIdx < eqLen) {
                 if (code === eqCodes[eqIdx]) {
                     if (++eqIdx === eqLen) {
-                        const end1 = i - eqIdx + 1;
-                        if (lastPos < end1) {
-                            key += str.slice(lastPos, end1);
+                        const end = i - eqIdx + 1;
+                        if (lastPos < end) {
+                            key += str.slice(lastPos, end);
                         }
                         encodeCheck = 0;
                         lastPos = i + 1;
@@ -28600,13 +28600,13 @@ class Url {
     }
     #parseHost() {
         let host = this.host || "";
-        let port3 = portPattern.exec(host);
-        if (port3) {
-            port3 = port3[0];
-            if (port3 !== ":") {
-                this.port = port3.slice(1);
+        let port = portPattern.exec(host);
+        if (port) {
+            port = port[0];
+            if (port !== ":") {
+                this.port = port.slice(1);
             }
-            host = host.slice(0, host.length - port3.length);
+            host = host.slice(0, host.length - port.length);
         }
         if (host) this.hostname = host;
     }
@@ -28684,7 +28684,7 @@ class Url {
         let mustEndAbs = isRelAbs || isSourceAbs || result.host && relative.pathname;
         const removeAllDots = mustEndAbs;
         let srcPath = result.pathname && result.pathname.split("/") || [];
-        const relPath1 = relative.pathname && relative.pathname.split("/") || [];
+        const relPath = relative.pathname && relative.pathname.split("/") || [];
         const noLeadingSlashes = result.protocol && !slashedProtocol.has(result.protocol);
         if (noLeadingSlashes) {
             result.hostname = "";
@@ -28699,12 +28699,12 @@ class Url {
                 relative.port = null;
                 result.auth = null;
                 if (relative.host) {
-                    if (relPath1[0] === "") relPath1[0] = relative.host;
-                    else relPath1.unshift(relative.host);
+                    if (relPath[0] === "") relPath[0] = relative.host;
+                    else relPath.unshift(relative.host);
                 }
                 relative.host = null;
             }
-            mustEndAbs = mustEndAbs && (relPath1[0] === "" || srcPath[0] === "");
+            mustEndAbs = mustEndAbs && (relPath[0] === "" || srcPath[0] === "");
         }
         if (isRelAbs) {
             if (relative.host || relative.host === "") {
@@ -28718,11 +28718,11 @@ class Url {
             }
             result.search = relative.search;
             result.query = relative.query;
-            srcPath = relPath1;
-        } else if (relPath1.length) {
+            srcPath = relPath;
+        } else if (relPath.length) {
             if (!srcPath) srcPath = [];
             srcPath.pop();
-            srcPath = srcPath.concat(relPath1);
+            srcPath = srcPath.concat(relPath);
             result.search = relative.search;
             result.query = relative.query;
         } else if (relative.search !== null && relative.search !== undefined) {
@@ -28781,10 +28781,10 @@ class Url {
         const isAbsolute = srcPath[0] === "" || srcPath[0] && srcPath[0].charAt(0) === "/";
         if (noLeadingSlashes) {
             result.hostname = result.host = isAbsolute ? "" : srcPath.length ? srcPath.shift() || null : "";
-            const authInHost1 = result.host && result.host.indexOf("@") > 0 ? result.host.split("@") : false;
-            if (authInHost1) {
-                result.auth = authInHost1.shift() || null;
-                result.host = result.hostname = authInHost1.shift() || null;
+            const authInHost = result.host && result.host.indexOf("@") > 0 ? result.host.split("@") : false;
+            if (authInHost) {
+                result.auth = authInHost.shift() || null;
+                result.host = result.hostname = authInHost.shift() || null;
             }
         }
         mustEndAbs = mustEndAbs || result.host && srcPath.length;
@@ -28968,8 +28968,8 @@ class Url {
             let hostEnd = -1;
             let atSign = -1;
             let nonHost = -1;
-            for(let i1 = 0; i1 < rest.length; ++i1){
-                switch(rest.charCodeAt(i1)){
+            for(let i = 0; i < rest.length; ++i){
+                switch(rest.charCodeAt(i)){
                     case 9:
                     case 10:
                     case 13:
@@ -28986,16 +28986,16 @@ class Url {
                     case 123:
                     case 124:
                     case 125:
-                        if (nonHost === -1) nonHost = i1;
+                        if (nonHost === -1) nonHost = i;
                         break;
                     case 35:
                     case 47:
                     case 63:
-                        if (nonHost === -1) nonHost = i1;
-                        hostEnd = i1;
+                        if (nonHost === -1) nonHost = i;
+                        hostEnd = i;
                         break;
                     case 64:
-                        atSign = i1;
+                        atSign = i;
                         nonHost = -1;
                         break;
                 }
@@ -29052,14 +29052,14 @@ class Url {
         }
         let questionIdx = -1;
         let hashIdx = -1;
-        for(let i2 = 0; i2 < rest.length; ++i2){
-            const code1 = rest.charCodeAt(i2);
-            if (code1 === 35) {
-                this.hash = rest.slice(i2);
-                hashIdx = i2;
+        for(let i = 0; i < rest.length; ++i){
+            const code = rest.charCodeAt(i);
+            if (code === 35) {
+                this.hash = rest.slice(i);
+                hashIdx = i;
                 break;
-            } else if (code1 === 63 && questionIdx === -1) {
-                questionIdx = i2;
+            } else if (code === 63 && questionIdx === -1) {
+                questionIdx = i;
             }
         }
         if (questionIdx !== -1) {
@@ -29088,9 +29088,9 @@ class Url {
             this.pathname = "/";
         }
         if (this.pathname || this.search) {
-            const p1 = this.pathname || "";
+            const p = this.pathname || "";
             const s = this.search || "";
-            this.path = p1 + s;
+            this.path = p + s;
         }
         this.href = this.format();
         return this;
@@ -29742,8 +29742,8 @@ function getDirents(path, { 0: names , 1: types  }, callback) {
             callback(null, names);
         }
     } else {
-        const len1 = names.length;
-        for(i = 0; i < len1; i++){
+        const len = names.length;
+        for(i = 0; i < len; i++){
             names[i] = getDirent(path, names[i], types[i]);
         }
         return names;
@@ -30439,19 +30439,19 @@ class ChildProcess extends EventEmitter {
         warnNotImplemented("ChildProcess.prototype.disconnect");
     }
     async #_waitForChildStreamsToClose() {
-        const promises1 = [];
+        const promises = [];
         if (this.stdin && !this.stdin.destroyed) {
             assert(this.stdin);
             this.stdin.destroy();
-            promises1.push(waitForStreamToClose(this.stdin));
+            promises.push(waitForStreamToClose(this.stdin));
         }
         if (this.stdout && !this.stdout.destroyed) {
-            promises1.push(waitForReadableToClose(this.stdout));
+            promises.push(waitForReadableToClose(this.stdout));
         }
         if (this.stderr && !this.stderr.destroyed) {
-            promises1.push(waitForReadableToClose(this.stderr));
+            promises.push(waitForReadableToClose(this.stderr));
         }
-        await Promise.all(promises1);
+        await Promise.all(promises);
     }
     #_handleError(err) {
         nextTick1(()=>{
@@ -30660,10 +30660,10 @@ function normalizeSpawnArguments(file, args, options) {
             return true;
         });
     }
-    for (const key1 of envKeys){
-        const value = env[key1];
+    for (const key of envKeys){
+        const value = env[key];
         if (value !== undefined) {
-            ArrayPrototypePush(envPairs, `${key1}=${value}`);
+            ArrayPrototypePush(envPairs, `${key}=${value}`);
         }
     }
     return {
@@ -31113,10 +31113,10 @@ function fork(modulePath, _args, _options) {
     }
     const v8Flags = [];
     if (Array.isArray(execArgv)) {
-        for(let index1 = 0; index1 < execArgv.length; index1++){
-            const flag = execArgv[index1];
+        for(let index = 0; index < execArgv.length; index++){
+            const flag = execArgv[index];
             if (flag.startsWith("--max-old-space-size")) {
-                execArgv.splice(index1, 1);
+                execArgv.splice(index, 1);
                 v8Flags.push(flag);
             }
         }
@@ -32014,19 +32014,19 @@ const consoleMethods = {
         }
         const setlike = setIter || mapIter || isSet1(tabularData);
         if (setlike) {
-            const values1 = [];
-            let length1 = 0;
+            const values = [];
+            let length = 0;
             console.log("tabularData", tabularData);
-            for (const v1 of tabularData){
-                values1.push(_inspect(v1));
-                length1++;
+            for (const v of tabularData){
+                values.push(_inspect(v));
+                length++;
             }
             return __final([
                 iterKey,
                 valuesKey
             ], [
-                getIndexArray(length1),
-                values1
+                getIndexArray(length),
+                values
             ]);
         }
         const map = Object.create(null);
@@ -32040,8 +32040,8 @@ const consoleMethods = {
                 hasPrimitives = true;
                 valuesKeyArray[i] = _inspect(item);
             } else {
-                const keys1 = properties || Object.keys(item);
-                for (const key of keys1){
+                const keys = properties || Object.keys(item);
+                for (const key of keys){
                     if (map[key] === undefined) {
                         map[key] = [];
                     }
@@ -32053,15 +32053,15 @@ const consoleMethods = {
                 }
             }
         }
-        const keys2 = Object.keys(map);
-        const values2 = Object.values(map);
+        const keys = Object.keys(map);
+        const values = Object.values(map);
         if (hasPrimitives) {
-            keys2.push(valuesKey);
-            values2.push(valuesKeyArray);
+            keys.push(valuesKey);
+            values.push(valuesKeyArray);
         }
-        keys2.unshift(indexKey);
-        values2.unshift(indexKeyArray);
-        return __final(keys2, values2);
+        keys.unshift(indexKey);
+        values.unshift(indexKeyArray);
+        return __final(keys, values);
     }
 };
 function timeLogImpl(self, name, label, data) {
@@ -32122,7 +32122,7 @@ Console.prototype.info = Console.prototype.log;
 Console.prototype.dirxml = Console.prototype.log;
 Console.prototype.error = Console.prototype.warn;
 Console.prototype.groupCollapsed = Console.prototype.group;
-const { assert: assert5 , clear , count , countReset , debug: debug3 , dir , dirxml , error: error2 , group , groupCollapsed , groupEnd , info , log: log1 , profile , profileEnd , table: table1 , time , timeEnd , timeLog , timeStamp , trace: trace2 , warn  } = console;
+const { assert: assert5 , clear , count , countReset , debug: debug3 , dir , dirxml , error: error1 , group , groupCollapsed , groupEnd , info , log: log1 , profile , profileEnd , table: table1 , time , timeEnd , timeLog , timeStamp , trace: trace2 , warn  } = console;
 console?.indentLevel;
 const __default32 = Object.assign({}, console, {
     Console
@@ -32436,12 +32436,12 @@ function accessSync(path, mode) {
         }
     } catch (err) {
         if (err instanceof Deno.errors.NotFound) {
-            const e1 = new Error(`ENOENT: no such file or directory, access '${path}'`);
-            e1.path = path;
-            e1.syscall = "access";
-            e1.errno = codeMap.get("ENOENT");
-            e1.code = "ENOENT";
-            throw e1;
+            const e = new Error(`ENOENT: no such file or directory, access '${path}'`);
+            e.path = path;
+            e.syscall = "access";
+            e.errno = codeMap.get("ENOENT");
+            e.code = "ENOENT";
+            throw e;
         } else {
             throw err;
         }
@@ -33019,14 +33019,14 @@ function open(path, flags, mode, callback) {
         callback(err);
     } else {
         if (flags === "as" || flags === "as+") {
-            let err1 = null, res;
+            let err = null, res;
             try {
                 res = openSync(path, flags, mode);
             } catch (error) {
-                err1 = error instanceof Error ? error : new Error("[non-error thrown]");
+                err = error instanceof Error ? error : new Error("[non-error thrown]");
             }
-            if (err1) {
-                callback(err1);
+            if (err) {
+                callback(err);
             } else {
                 callback(null, res);
             }
@@ -34208,7 +34208,7 @@ function createWriteStream(path, options) {
     return new WriteStream(path, options);
 }
 const { F_OK: F_OK2 , R_OK: R_OK2 , W_OK: W_OK2 , X_OK: X_OK2 , O_RDONLY: O_RDONLY2 , O_WRONLY: O_WRONLY2 , O_RDWR: O_RDWR2 , O_NOCTTY: O_NOCTTY1 , O_TRUNC: O_TRUNC2 , O_APPEND: O_APPEND2 , O_DIRECTORY: O_DIRECTORY1 , O_NOFOLLOW: O_NOFOLLOW1 , O_SYNC: O_SYNC2 , O_DSYNC: O_DSYNC1 , O_SYMLINK: O_SYMLINK1 , O_NONBLOCK: O_NONBLOCK1 , O_CREAT: O_CREAT2 , O_EXCL: O_EXCL2  } = mod53;
-const promises2 = {
+const promises1 = {
     access: accessPromise,
     copyFile: copyFilePromise,
     open: openPromise,
@@ -34294,7 +34294,7 @@ const __default33 = {
     opendirSync,
     read,
     readSync,
-    promises: promises2,
+    promises: promises1,
     R_OK: R_OK2,
     readdir,
     readdirSync,
@@ -34463,8 +34463,8 @@ function tmpdir() {
         }
         return null;
     } else {
-        const temp1 = Deno.env.get("TMPDIR") || Deno.env.get("TMP") || Deno.env.get("TEMP") || "/tmp";
-        return temp1.replace(/(?<!^)\/*$/, "");
+        const temp = Deno.env.get("TMPDIR") || Deno.env.get("TMP") || Deno.env.get("TEMP") || "/tmp";
+        return temp.replace(/(?<!^)\/*$/, "");
     }
 }
 function totalmem() {
@@ -34720,25 +34720,25 @@ function passStringToWasm0(arg, malloc, realloc) {
         return ptr;
     }
     let len = arg.length;
-    let ptr1 = malloc(len);
+    let ptr = malloc(len);
     const mem = getUint8Memory0();
     let offset = 0;
     for(; offset < len; offset++){
         const code = arg.charCodeAt(offset);
         if (code > 0x7F) break;
-        mem[ptr1 + offset] = code;
+        mem[ptr + offset] = code;
     }
     if (offset !== len) {
         if (offset !== 0) {
             arg = arg.slice(offset);
         }
-        ptr1 = realloc(ptr1, len, len = offset + arg.length * 3);
-        const view = getUint8Memory0().subarray(ptr1 + offset, ptr1 + len);
+        ptr = realloc(ptr, len, len = offset + arg.length * 3);
+        const view = getUint8Memory0().subarray(ptr + offset, ptr + len);
         const ret = encodeString(arg, view);
         offset += ret.written;
     }
     WASM_VECTOR_LEN = offset;
-    return ptr1;
+    return ptr;
 }
 function isLikeNone(x) {
     return x === undefined || x === null;
@@ -40148,7 +40148,7 @@ BN.prototype._normSign = function _normSign() {
 if (typeof Symbol !== "undefined" && typeof Symbol.for === "function") {
     try {
         BN.prototype[Symbol.for("nodejs.util.inspect.custom")] = inspect1;
-    } catch (e6) {
+    } catch (e) {
         BN.prototype.inspect = inspect1;
     }
 } else {
@@ -43233,16 +43233,16 @@ Node.prototype._decode = function decode(input, options) {
         }
         const start = input.offset;
         if (state.use === null && state.choice === null) {
-            let save1;
+            let save;
             if (state.any) {
-                save1 = input.save();
+                save = input.save();
             }
             const body = this._decodeTag(input, state.implicit !== null ? state.implicit : state.tag, state.any);
             if (input.isError(body)) {
                 return body;
             }
             if (state.any) {
-                result = input.raw(save1);
+                result = input.raw(save);
             } else {
                 input = body;
             }
@@ -43576,14 +43576,14 @@ DERNode.prototype._encodeComposite = function encodeComposite(tag, primitive, cl
     for(let i = content.length; i >= 0x100; i >>= 8){
         lenOctets++;
     }
-    const header1 = Buffer1.alloc(1 + 1 + lenOctets);
-    header1[0] = encodedTag;
-    header1[1] = 0x80 | lenOctets;
-    for(let i1 = 1 + lenOctets, j = content.length; j > 0; i1--, j >>= 8){
-        header1[i1] = j & 0xff;
+    const header = Buffer1.alloc(1 + 1 + lenOctets);
+    header[0] = encodedTag;
+    header[1] = 0x80 | lenOctets;
+    for(let i = 1 + lenOctets, j = content.length; j > 0; i--, j >>= 8){
+        header[i] = j & 0xff;
     }
     return this._createEncoderBuffer([
-        header1,
+        header,
         content
     ]);
 };
@@ -43631,8 +43631,8 @@ DERNode.prototype._encodeObjid = function encodeObjid(id, values, relative) {
         }
     } else if (Array.isArray(id)) {
         id = id.slice();
-        for(let i1 = 0; i1 < id.length; i1++){
-            id[i1] |= 0;
+        for(let i = 0; i < id.length; i++){
+            id[i] |= 0;
         }
     }
     if (!Array.isArray(id)) {
@@ -43645,19 +43645,19 @@ DERNode.prototype._encodeObjid = function encodeObjid(id, values, relative) {
         id.splice(0, 2, id[0] * 40 + id[1]);
     }
     let size = 0;
-    for(let i2 = 0; i2 < id.length; i2++){
-        let ident = id[i2];
+    for(let i = 0; i < id.length; i++){
+        let ident = id[i];
         for(size++; ident >= 0x80; ident >>= 7){
             size++;
         }
     }
     const objid = Buffer1.alloc(size);
     let offset = objid.length - 1;
-    for(let i3 = id.length - 1; i3 >= 0; i3--){
-        let ident1 = id[i3];
-        objid[offset--] = ident1 & 0x7f;
-        while((ident1 >>= 7) > 0){
-            objid[offset--] = 0x80 | ident1 & 0x7f;
+    for(let i = id.length - 1; i >= 0; i--){
+        let ident = id[i];
+        objid[offset--] = ident & 0x7f;
+        while((ident >>= 7) > 0){
+            objid[offset--] = 0x80 | ident & 0x7f;
         }
     }
     return this._createEncoderBuffer(objid);
@@ -43738,19 +43738,19 @@ DERNode.prototype._encodeInt = function encodeInt(num, values) {
             num
         ]);
     }
-    let size1 = 1;
+    let size = 1;
     for(let i = num; i >= 0x100; i >>= 8){
-        size1++;
+        size++;
     }
-    const out1 = new Array(size1);
-    for(let i1 = out1.length - 1; i1 >= 0; i1--){
-        out1[i1] = num & 0xff;
+    const out = new Array(size);
+    for(let i = out.length - 1; i >= 0; i--){
+        out[i] = num & 0xff;
         num >>= 8;
     }
-    if (out1[0] & 0x80) {
-        out1.unshift(0);
+    if (out[0] & 0x80) {
+        out.unshift(0);
     }
-    return this._createEncoderBuffer(Buffer1.from(out1));
+    return this._createEncoderBuffer(Buffer1.from(out));
 };
 DERNode.prototype._encodeBool = function encodeBool(value) {
     return this._createEncoderBuffer(value ? 0xff : 0);
@@ -45079,12 +45079,12 @@ function newHandle(type, lookup) {
         return handle;
     }
     if (type === "udp6") {
-        const handle1 = new UDP();
-        handle1.lookup = lookup6.bind(handle1, lookup);
-        handle1.bind = handle1.bind6;
-        handle1.connect = handle1.connect6;
-        handle1.send = handle1.send6;
-        return handle1;
+        const handle = new UDP();
+        handle.lookup = lookup6.bind(handle, lookup);
+        handle.bind = handle.bind6;
+        handle.connect = handle.connect6;
+        handle.send = handle.send6;
+        return handle;
     }
     throw new ERR_SOCKET_BAD_TYPE();
 }
@@ -45234,12 +45234,12 @@ class Socket1 extends EventEmitter {
         }
         if (isBindOptions(port) && isInt32(port.fd) && port.fd > 0) {
             const fd = port.fd;
-            const state1 = this[kStateSymbol];
+            const state = this[kStateSymbol];
             const type = guessHandleType(fd);
             if (type !== "UDP") {
                 throw new ERR_INVALID_FD_TYPE(type);
             }
-            const err = state1.handle.open(fd);
+            const err = state.handle.open(fd);
             if (err) {
                 throw errnoException(err, "open");
             }
@@ -45722,8 +45722,8 @@ function doSend(ex, self, ip, list, address, port, callback) {
         return;
     }
     if (err && callback) {
-        const ex1 = exceptionWithHostPort(err, "send", address, port);
-        nextTick1(callback, ex1);
+        const ex = exceptionWithHostPort(err, "send", address, port);
+        nextTick1(callback, ex);
     }
 }
 function afterSend(err, sent) {
@@ -45752,31 +45752,31 @@ const __default54 = {
     create,
     Domain
 };
-promises2.access;
-promises2.copyFile;
-promises2.open;
-promises2.opendir;
-promises2.rename;
-promises2.truncate;
-promises2.rm;
-promises2.rmdir;
-promises2.mkdir;
-promises2.readdir;
-promises2.readlink;
-promises2.symlink;
-promises2.lstat;
-promises2.stat;
-promises2.link;
-promises2.unlink;
-promises2.chmod;
-promises2.chown;
-promises2.utimes;
-promises2.realpath;
-promises2.mkdtemp;
-promises2.writeFile;
-promises2.appendFile;
-promises2.readFile;
-promises2.watch;
+promises1.access;
+promises1.copyFile;
+promises1.open;
+promises1.opendir;
+promises1.rename;
+promises1.truncate;
+promises1.rm;
+promises1.rmdir;
+promises1.mkdir;
+promises1.readdir;
+promises1.readlink;
+promises1.symlink;
+promises1.lstat;
+promises1.stat;
+promises1.link;
+promises1.unlink;
+promises1.chmod;
+promises1.chown;
+promises1.utimes;
+promises1.realpath;
+promises1.mkdtemp;
+promises1.writeFile;
+promises1.appendFile;
+promises1.readFile;
+promises1.watch;
 var Status;
 (function(Status) {
     Status[Status["Continue"] = 100] = "Continue";
@@ -46113,8 +46113,8 @@ class ServerResponse extends mu {
             controller.enqueue(chunk);
         }
     }
-    static #bodyShouldBeNull(status1) {
-        return status1 === 101 || status1 === 204 || status1 === 205 || status1 === 304;
+    static #bodyShouldBeNull(status) {
+        return status === 101 || status === 204 || status === 205 || status === 304;
     }
     constructor(reqEvent, resolve){
         let controller;
@@ -46314,10 +46314,10 @@ class ServerImpl extends EventEmitter {
             nextTick1(()=>this.#serve());
         } else {
             this.listening = true;
-            const hostname1 = options.host ?? "";
+            const hostname = options.host ?? "";
             this.#listener = Deno.listen({
                 port,
-                hostname: hostname1
+                hostname
             });
             nextTick1(()=>this.#listenLoop());
         }
@@ -46342,10 +46342,10 @@ class ServerImpl extends EventEmitter {
                 this.#httpConnections.delete(httpConn);
             }
         };
-        const listener1 = this.#listener;
-        if (listener1 !== undefined) {
+        const listener = this.#listener;
+        if (listener !== undefined) {
             this.emit("listening");
-            for await (const conn of listener1){
+            for await (const conn of listener){
                 let httpConn;
                 try {
                     httpConn = Deno.serveHttp(conn);
@@ -47370,8 +47370,8 @@ function defineEventHandler(emitter, name) {
                 wrappedHandler.handler = value;
                 if (typeof wrappedHandler.handler === "function") {
                     this[kEvents1].get(name).size++;
-                    const size1 = this[kEvents1].get(name).size;
-                    this[kNewListener](size1, name, value, false, false, false, false);
+                    const size = this[kEvents1].get(name).size;
+                    this[kNewListener](size, name, value, false, false, false, false);
                 }
             } else {
                 wrappedHandler = makeEventHandler(value);
@@ -48654,8 +48654,8 @@ function Interface2(input, output, completer, terminal) {
         return new Interface2(input, output, completer, terminal);
     }
     if (input?.input && typeof input.completer === "function" && input.completer.length !== 2) {
-        const { completer: completer1  } = input;
-        input.completer = (v, cb)=>cb(null, completer1(v));
+        const { completer  } = input;
+        input.completer = (v, cb)=>cb(null, completer(v));
     } else if (typeof completer === "function" && completer.length !== 2) {
         const realCompleter = completer;
         completer = (v, cb)=>cb(null, realCompleter(v));
@@ -49297,16 +49297,16 @@ class ServerImpl1 extends EventEmitter {
         this.#listen(this.listener);
         return this;
     }
-    async #listen(listener2) {
+    async #listen(listener) {
         while(!this.#closed){
             try {
-                const handle = new TCP(constants3.SOCKET, await listener2.accept());
+                const handle = new TCP(constants3.SOCKET, await listener.accept());
                 const socket = new Socket({
                     handle
                 });
                 this.emit("secureConnection", socket);
-            } catch (e7) {
-                if (e7 instanceof Deno.errors.BadResource) {
+            } catch (e) {
+                if (e instanceof Deno.errors.BadResource) {
                     this.#closed = true;
                 }
             }
@@ -49926,8 +49926,8 @@ class Context {
                     case CLOCKID_PROCESS_CPUTIME_ID:
                     case CLOCKID_THREAD_CPUTIME_ID:
                         {
-                            const resolution1 = BigInt(1e3);
-                            memoryView.setBigUint64(resolutionOffset, resolution1, true);
+                            const resolution = BigInt(1e3);
+                            memoryView.setBigUint64(resolutionOffset, resolution, true);
                             break;
                         }
                     default:
@@ -49951,8 +49951,8 @@ class Context {
                             const t = performance.now();
                             const s = Math.trunc(t);
                             const ms = Math.floor((t - s) * 1e3);
-                            const time1 = BigInt(s) * BigInt(1e9) + BigInt(ms) * BigInt(1e6);
-                            memoryView.setBigUint64(timeOffset, time1, true);
+                            const time = BigInt(s) * BigInt(1e9) + BigInt(ms) * BigInt(1e6);
+                            memoryView.setBigUint64(timeOffset, time, true);
                             break;
                         }
                     default:
@@ -50427,13 +50427,13 @@ class Context {
                     options.read = true;
                 }
                 const { rid  } = Deno.openSync(path, options);
-                const openedFd1 = this.#fds.push({
+                const openedFd = this.#fds.push({
                     rid,
                     flags: fdflags,
                     path
                 }) - 1;
-                const memoryView1 = new DataView(this.#memory.buffer);
-                memoryView1.setUint32(openedFdOffset, openedFd1, true);
+                const memoryView = new DataView(this.#memory.buffer);
+                memoryView.setUint32(openedFdOffset, openedFd, true);
                 return ERRNO_SUCCESS;
             }),
             "path_readlink": syscall((fd, pathOffset, pathLength, bufferOffset, bufferLength, bufferUsedOffset)=>{
@@ -52337,8 +52337,8 @@ var flattenChunks = (chunks)=>{
         len += chunks[i].length;
     }
     const result = new Uint8Array(len);
-    for(let i1 = 0, pos = 0, l1 = chunks.length; i1 < l1; i1++){
-        let chunk = chunks[i1];
+    for(let i = 0, pos = 0, l = chunks.length; i < l; i++){
+        let chunk = chunks[i];
         result.set(chunk, pos);
         pos += chunk.length;
     }
@@ -55233,7 +55233,7 @@ const __default80 = {
     domain: __default54,
     events: EventEmitter,
     fs: __default33,
-    "fs/promises": promises2,
+    "fs/promises": promises1,
     http: __default55,
     http2: __default56,
     https: __default57,
@@ -55442,25 +55442,25 @@ function packageResolve(specifier, base, conditions) {
             return packageExportsResolve(packageJSONUrl.toString(), packageSubpath, packageConfig, base, conditions);
         }
     }
-    let packageJSONUrl1 = new URL("./node_modules/" + packageName + "/package.json", base);
-    let packageJSONPath = fileURLToPath(packageJSONUrl1);
+    let packageJSONUrl = new URL("./node_modules/" + packageName + "/package.json", base);
+    let packageJSONPath = fileURLToPath(packageJSONUrl);
     let lastPath;
     do {
         const stat = tryStatSync(packageJSONPath.slice(0, packageJSONPath.length - 13));
         if (!stat.isDirectory) {
             lastPath = packageJSONPath;
-            packageJSONUrl1 = new URL((isScoped ? "../../../../node_modules/" : "../../../node_modules/") + packageName + "/package.json", packageJSONUrl1);
-            packageJSONPath = fileURLToPath(packageJSONUrl1);
+            packageJSONUrl = new URL((isScoped ? "../../../../node_modules/" : "../../../node_modules/") + packageName + "/package.json", packageJSONUrl);
+            packageJSONPath = fileURLToPath(packageJSONUrl);
             continue;
         }
-        const packageConfig1 = getPackageConfig(packageJSONPath, specifier, base);
-        if (packageConfig1.exports !== undefined && packageConfig1.exports !== null) {
-            return packageExportsResolve(packageJSONUrl1.toString(), packageSubpath, packageConfig1, base, conditions);
+        const packageConfig = getPackageConfig(packageJSONPath, specifier, base);
+        if (packageConfig.exports !== undefined && packageConfig.exports !== null) {
+            return packageExportsResolve(packageJSONUrl.toString(), packageSubpath, packageConfig, base, conditions);
         }
         if (packageSubpath === ".") {
-            return legacyMainResolve(packageJSONUrl1, packageConfig1, base);
+            return legacyMainResolve(packageJSONUrl, packageConfig, base);
         }
-        return new URL(packageSubpath, packageJSONUrl1);
+        return new URL(packageSubpath, packageJSONUrl);
     }while (packageJSONPath.length !== lastPath.length)
     throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base));
 }
@@ -55543,21 +55543,21 @@ function resolvePackageTarget(packageJSONUrl, target, subpath, packageSubpath, b
         throw lastException;
     } else if (typeof target === "object" && target !== null) {
         const keys = Object.getOwnPropertyNames(target);
-        for(let i1 = 0; i1 < keys.length; i1++){
-            const key = keys[i1];
+        for(let i = 0; i < keys.length; i++){
+            const key = keys[i];
             if (isArrayIndex1(key)) {
                 throw new ERR_INVALID_PACKAGE_CONFIG(fileURLToPath(packageJSONUrl), base, '"exports" cannot contain numeric property keys.');
             }
         }
-        for(let i2 = 0; i2 < keys.length; i2++){
-            const key1 = keys[i2];
-            if (key1 === "default" || conditions.has(key1)) {
-                const conditionalTarget = target[key1];
-                const resolved1 = resolvePackageTarget(packageJSONUrl, conditionalTarget, subpath, packageSubpath, base, pattern, internal, conditions);
-                if (resolved1 === undefined) {
+        for(let i = 0; i < keys.length; i++){
+            const key = keys[i];
+            if (key === "default" || conditions.has(key)) {
+                const conditionalTarget = target[key];
+                const resolved = resolvePackageTarget(packageJSONUrl, conditionalTarget, subpath, packageSubpath, base, pattern, internal, conditions);
+                if (resolved === undefined) {
                     continue;
                 }
-                return resolved1;
+                return resolved;
             }
         }
         return undefined;
@@ -55597,12 +55597,12 @@ function packageExportsResolve(packageJSONUrl, packageSubpath, packageConfig, ba
         }
     }
     if (bestMatch) {
-        const target1 = exports[bestMatch];
-        const resolved1 = resolvePackageTarget(packageJSONUrl, target1, bestMatchSubpath, bestMatch, base, true, false, conditions);
-        if (resolved1 === null || resolved1 === undefined) {
+        const target = exports[bestMatch];
+        const resolved = resolvePackageTarget(packageJSONUrl, target, bestMatchSubpath, bestMatch, base, true, false, conditions);
+        if (resolved === null || resolved === undefined) {
             throwExportsNotFound(packageSubpath, packageJSONUrl, base);
         }
-        return resolved1;
+        return resolved;
     }
     throwExportsNotFound(packageSubpath, packageJSONUrl, base);
 }
@@ -55641,7 +55641,7 @@ function getPackageConfig(path, specifier, base) {
     if (typeof main !== "string") main = undefined;
     if (typeof name !== "string") name = undefined;
     if (type !== "module" && type !== "commonjs") type = "none";
-    const packageConfig1 = {
+    const packageConfig = {
         pjsonPath: path,
         exists: true,
         main,
@@ -55650,8 +55650,8 @@ function getPackageConfig(path, specifier, base) {
         exports,
         imports
     };
-    packageJSONCache.set(path, packageConfig1);
-    return packageConfig1;
+    packageJSONCache.set(path, packageConfig);
+    return packageConfig;
 }
 function getPackageScopeConfig(resolved) {
     let packageJSONUrl = new URL("./package.json", resolved);
@@ -55666,9 +55666,9 @@ function getPackageScopeConfig(resolved) {
         packageJSONUrl = new URL("../package.json", packageJSONUrl);
         if (packageJSONUrl.pathname === lastPackageJSONUrl.pathname) break;
     }
-    const packageJSONPath1 = fileURLToPath(packageJSONUrl);
-    const packageConfig1 = {
-        pjsonPath: packageJSONPath1,
+    const packageJSONPath = fileURLToPath(packageJSONUrl);
+    const packageConfig = {
+        pjsonPath: packageJSONPath,
         exists: false,
         main: undefined,
         name: undefined,
@@ -55676,8 +55676,8 @@ function getPackageScopeConfig(resolved) {
         exports: undefined,
         imports: undefined
     };
-    packageJSONCache.set(packageJSONPath1, packageConfig1);
-    return packageConfig1;
+    packageJSONCache.set(packageJSONPath, packageConfig);
+    return packageConfig;
 }
 function packageImportsResolve(name, base, conditions) {
     if (name === "#" || name.startsWith("#/") || name.startsWith("/")) {
@@ -55712,9 +55712,9 @@ function packageImportsResolve(name, base, conditions) {
                 }
                 if (bestMatch) {
                     const target = imports[bestMatch];
-                    const resolved1 = resolvePackageTarget(packageJSONUrl.toString(), target, bestMatchSubpath, bestMatch, base, true, true, conditions);
-                    if (resolved1 !== null && resolved1 !== undefined) {
-                        return resolved1;
+                    const resolved = resolvePackageTarget(packageJSONUrl.toString(), target, bestMatchSubpath, bestMatch, base, true, true, conditions);
+                    if (resolved !== null && resolved !== undefined) {
+                        return resolved;
                     }
                 }
             }
@@ -55755,9 +55755,9 @@ function stat1(filename) {
     }
     try {
         const info = Deno.statSync(filename);
-        const result1 = info.isFile ? 0 : 1;
-        if (statCache !== null) statCache.set(filename, result1);
-        return result1;
+        const result = info.isFile ? 0 : 1;
+        if (statCache !== null) statCache.set(filename, result);
+        return result;
     } catch (e) {
         if (e instanceof Deno.errors.PermissionDenied) {
             throw new Error("CJS loader requires --allow-read.");
@@ -56046,46 +56046,46 @@ class Module {
         }
         const upstreamMod = loadUpstreamModule(request, parent, request);
         if (upstreamMod) return upstreamMod.exports;
-        const filename1 = Module._resolveFilename(request, parent, isMain);
-        if (filename1.startsWith("node:")) {
-            const id = filename1.slice(5);
+        const filename = Module._resolveFilename(request, parent, isMain);
+        if (filename.startsWith("node:")) {
+            const id = filename.slice(5);
             const module = loadNativeModule(id, id);
             return module?.exports;
         }
-        const cachedModule1 = Module._cache[filename1];
-        if (cachedModule1 !== undefined) {
-            updateChildren(parent, cachedModule1, true);
-            if (!cachedModule1.loaded) {
-                return getExportsForCircularRequire(cachedModule1);
+        const cachedModule = Module._cache[filename];
+        if (cachedModule !== undefined) {
+            updateChildren(parent, cachedModule, true);
+            if (!cachedModule.loaded) {
+                return getExportsForCircularRequire(cachedModule);
             }
-            return cachedModule1.exports;
+            return cachedModule.exports;
         }
-        const mod = loadNativeModule(filename1, request);
+        const mod = loadNativeModule(filename, request);
         if (mod) return mod.exports;
-        const module1 = new Module(filename1, parent);
+        const module = new Module(filename, parent);
         if (isMain) {
-            process.mainModule = module1;
-            module1.id = ".";
+            process.mainModule = module;
+            module.id = ".";
         }
-        Module._cache[filename1] = module1;
+        Module._cache[filename] = module;
         if (parent !== undefined) {
-            relativeResolveCache[relResolveCacheIdentifier] = filename1;
+            relativeResolveCache[relResolveCacheIdentifier] = filename;
         }
         let threw = true;
         try {
-            module1.load(filename1);
+            module.load(filename);
             threw = false;
         } finally{
             if (threw) {
-                delete Module._cache[filename1];
+                delete Module._cache[filename];
                 if (parent !== undefined) {
                     delete relativeResolveCache[relResolveCacheIdentifier];
                 }
-            } else if (module1.exports && Object.getPrototypeOf(module1.exports) === CircularRequirePrototypeWarningProxy) {
-                Object.setPrototypeOf(module1.exports, PublicObjectPrototype);
+            } else if (module.exports && Object.getPrototypeOf(module.exports) === CircularRequirePrototypeWarningProxy) {
+                Object.setPrototypeOf(module.exports, PublicObjectPrototype);
             }
         }
-        return module1.exports;
+        return module.exports;
     }
     static wrap(script) {
         script = script.replace(/^#!.*?\n/, "");
@@ -56120,23 +56120,23 @@ class Module {
             if (from === "/") return [
                 "/node_modules"
             ];
-            const paths1 = [];
-            for(let i1 = from.length - 1, p1 = 0, last1 = from.length; i1 >= 0; --i1){
-                const code1 = from.charCodeAt(i1);
-                if (code1 === CHAR_FORWARD_SLASH2) {
-                    if (p1 !== nmLen) paths1.push(from.slice(0, last1) + "/node_modules");
-                    last1 = i1;
-                    p1 = 0;
-                } else if (p1 !== -1) {
-                    if (nmChars[p1] === code1) {
-                        ++p1;
+            const paths = [];
+            for(let i = from.length - 1, p = 0, last = from.length; i >= 0; --i){
+                const code = from.charCodeAt(i);
+                if (code === CHAR_FORWARD_SLASH2) {
+                    if (p !== nmLen) paths.push(from.slice(0, last) + "/node_modules");
+                    last = i;
+                    p = 0;
+                } else if (p !== -1) {
+                    if (nmChars[p] === code) {
+                        ++p;
                     } else {
-                        p1 = -1;
+                        p = -1;
                     }
                 }
             }
-            paths1.push("/node_modules");
-            return paths1;
+            paths.push("/node_modules");
+            return paths;
         }
     }
     static createRequire(filename) {
@@ -56397,9 +56397,9 @@ function applyExports(basePath, expansion) {
             }
         }
         if (dirMatch !== "") {
-            const mapping1 = pkgExports[dirMatch];
+            const mapping = pkgExports[dirMatch];
             const subpath = mappingKey.slice(dirMatch.length);
-            return resolveExportsTarget(pathToFileURL(basePath + "/"), mapping1, subpath, basePath, mappingKey);
+            return resolveExportsTarget(pathToFileURL(basePath + "/"), mapping, subpath, basePath, mappingKey);
         }
     }
     if (mappingKey === ".") return basePath;
@@ -56457,22 +56457,22 @@ function resolveExportsTarget(pkgPath, target, subpath, basePath, mappingKey) {
             if (hasOwn2(target, key)) {
                 try {
                     return resolveExportsTarget(pkgPath, target[key], subpath, basePath, mappingKey);
-                } catch (e1) {
-                    if (!(e1 instanceof Error) || e1.code !== "MODULE_NOT_FOUND") {
-                        throw e1;
+                } catch (e) {
+                    if (!(e instanceof Error) || e.code !== "MODULE_NOT_FOUND") {
+                        throw e;
                     }
                 }
             }
         }
     }
-    let e2;
+    let e;
     if (mappingKey !== ".") {
-        e2 = new Error(`Package exports for '${basePath}' do not define a ` + `valid '${mappingKey}' target${subpath ? " for " + subpath : ""}`);
+        e = new Error(`Package exports for '${basePath}' do not define a ` + `valid '${mappingKey}' target${subpath ? " for " + subpath : ""}`);
     } else {
-        e2 = new Error(`No valid exports main found for '${basePath}'`);
+        e = new Error(`No valid exports main found for '${basePath}'`);
     }
-    e2.code = "MODULE_NOT_FOUND";
-    throw e2;
+    e.code = "MODULE_NOT_FOUND";
+    throw e;
 }
 const nmChars = [
     115,

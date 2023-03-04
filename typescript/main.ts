@@ -4,6 +4,13 @@ import * as mod from "https://deno.land/std@0.176.0/crypto/mod.ts";
 import { createRequire } from "https://deno.land/std@0.176.0/node/module.ts";
 const require = createRequire(import.meta.url);
 const serialize = require("./serialize.js");
+// import {
+//   returnEncObj as returnEncObj_nim,
+//   wrap as wrap_nim,
+//   unwrap as unwrap_nim,
+//   unwrapKey as unwrapKey_nim,
+//   wrapKey as wrapKey_nim
+// } from "./serialize.js";
 
 import {
   crypto_blake2b,
