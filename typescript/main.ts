@@ -93,9 +93,5 @@ export function wrapKey(obj: any): any {
 
 export function unwrapKey(wrappedObj: any): any {
   return serialize.unwrapKey(wrappedObj);
-<<<<<<< HEAD
   // return unwrapKey_nim(wrappedObj);
 }
-=======
-}
->>>>>>> 39ceeed3e015f07a5b73952d1c5381e260f38188
