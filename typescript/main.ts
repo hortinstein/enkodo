@@ -2,7 +2,7 @@ import * as mod from "https://deno.land/std@0.176.0/crypto/mod.ts";
 
 // import the nim generated code
 import { createRequire } from "https://deno.land/std@0.176.0/node/module.ts";
-const require = createRequire(import.meta.url);
+const require = createRequire(Deno.mainModule);
 const serialize = require("./serialize.js");
 // import {
 //   returnEncObj as returnEncObj_nim,
@@ -51,6 +51,7 @@ export function enc(
   // console.log(mac, cipher);
   const myPubKey = crypto_key_exchange_public_key(privateKey);
   return serialize.returnEncObj(myPubKey, nonce, mac, cipher.length, cipher);
+  // return returnEncObj_nim(myPubKey, nonce, mac, cipher.length, cipher);
 }
 
 //decryption helper function that mirrors the nim functionality
@@ -77,16 +78,20 @@ export function generateKeyPair(): [Uint8Array, Uint8Array] {
 
 export function wrap(obj: any): any {
   return serialize.wrap(obj);
+  // return wrap_nim(obj);
 }
 
 export function unwrap(wrappedObj: any): any {
   return serialize.unwrap(wrappedObj);
+  // return unwrap_nim(wrappedObj);
 }
 
 export function wrapKey(obj: any): any {
   return serialize.wrapKey(obj);
+  // return wrapKey_nim(obj);
 }
 
 export function unwrapKey(wrappedObj: any): any {
   return serialize.unwrapKey(wrappedObj);
+  // return unwrapKey_nim(wrappedObj);
 }

@@ -99412,11 +99412,7 @@ function crypto_x25519_public_key(secret_key) {
     wasm1.crypto_wipe(ptr + 32, 32);
     return read1(ptr, 32);
 }
-const importMeta = {
-    url: "file:///home/hortinstein/enkodo/typescript/main.ts",
-    main: import.meta.main
-};
-const require1 = createRequire(importMeta.url);
+const require1 = createRequire(Deno.mainModule);
 const serialize1 = require1("./serialize.js");
 function splitMAC(encBuffer) {
     return [
