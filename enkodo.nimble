@@ -19,4 +19,5 @@ requires "monocypher"
 
 task buildjs, "Build the package":
   exec "nim js --out:typescript/serialize.js -r src/enkodo/serialize.nim"
-  exec "deno bundle typescript/main.ts > typescript/mod.ts"
+  exec "nim js --out:node/serialize.js -r src/enkodo/serialize.nim"
+  
