@@ -11,8 +11,8 @@ srcDir        = "src"
 
 requires "nim >= 1.0.00"
 
-requires "flatty"
-requires "monocypher"
+requires "flatty == 0.3.4"
+requires "monocypher == 0.2.1"
 
 # task install, "Install the package":
 #   exec "nimble install"
