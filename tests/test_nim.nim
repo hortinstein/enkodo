@@ -66,13 +66,6 @@ test "outputting test file for JS to read and decrypt":
   
   writeStringToFile("TESTFILE_TYPESCRIPT_PRIVKEY", wrapKey(b_secretKey))
 
-test "decrypt the foundational arguments":
-  let cipherText = unwrap(readStringFromFile("./foundational_artifacts/TESTFILE_TYPESCRIPT_ENC_BIN"))
-  let privKey = unwrapKey(readStringFromFile("./foundational_artifacts/TESTFILE_TYPESCRIPT_PRIVKEY"))
-  let pubKey = unwrapKey(readStringFromFile("./foundational_artifacts/TESTFILE_TYPESCRIPT_PUBKEY"))
-  let decObj = dec(privKey,cipherText)
-  assert decObj == cast[seq[byte]]("FOUNDATION")
-
 
 # test "testing enc on a blank message":
 #   let encObj = enc(a_secretKey,b_publicKey,"")
@@ -81,15 +74,3 @@ test "decrypt the foundational arguments":
 #   let encObj = enc(a_secretKey,b_publicKey,"test")
 #   let decObj = dec('',encObj)
 
-
-# # Kisoteki 
-# test "outputting foundational file for future iterations of the code, this is to ensure subsequent versions of this library have binary compatibility with past artifacts":
-#   let encObj = enc(a_secretKey,b_publicKey,plaintext)
-  
-#   let b64Str = wrap(encObj)
-
-#   writeStringToFile("./foundational_artifacts/TESTFILE_TYPESCRIPT_ENC_BIN", b64Str)
-  
-#   writeStringToFile("./foundational_artifacts/TESTFILE_TYPESCRIPT_PRIVKEY", wrapKey(b_secretKey))
-
-#   writeStringToFile("./foundational_artifacts/TESTFILE_TYPESCRIPT_PUBKEY", wrapKey(b_secretKey))
