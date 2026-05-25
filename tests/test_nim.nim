@@ -29,7 +29,7 @@ test "testing that messages can be enc then dec":
 test "testing that messages fail on bad keys":
   let encObj = enc(a_secretKey,b_publicKey,plaintext)
   try:
-    let decObj = dec(getRandomBytes(sizeof(Key)),encObj)
+    let decObj = dec(randomKey(),encObj)
     doAssert(plaintext == decObj)
   except IOError:
     echo "failed the decryption test [caught the error]"
