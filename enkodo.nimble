@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.1.5"
+version       = "0.1.6"
 author        = "Alex"
 description   = "A cross platform encyption and serialization library"
 license       = "MIT"
