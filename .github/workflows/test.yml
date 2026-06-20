@@ -17,3 +17,68 @@ jobs:
         run: nimble install -y
       - name: Run tests
         run: nimble test -y
+
+  report:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: jiro4989/setup-nim-action@v2
+        with:
+          nim-version: 'stable'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Nim dependencies
+        run: nimble install -y
+
+      - name: Compile JS agents
+        run: nimble buildjs -y
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Generate agent report
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          claude -p "Review the following compiled JavaScript agents produced by the enkodo cryptographic library (Nim source transpiled to JS via the nim js backend).
+
+          @src/enkodo/serialize.nim
+          @src/enkodo/types.nim
+          @typescript/serialize.js
+          @node/serialize.js
+
+          Generate a structured markdown report with these sections:
+
+          ## Compilation Summary
+          Describe what each compiled agent does and how it maps to the Nim source.
+
+          ## Code Quality
+          Assess structure, naming, and correctness in both the source and compiled output.
+
+          ## Cross-Platform Consistency
+          Compare typescript/serialize.js and node/serialize.js — are the exports and behaviour equivalent?
+
+          ## Security Observations
+          Note any concerns in the serialization, base64 encoding, or JS interop layer.
+
+          ## Recommendations
+          Concrete, actionable improvements." \
+          --output-format text > claude-report.md
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: claude-agent-report
+          path: claude-report.md
+          retention-days: 30
+
+      - name: Print report
+        run: cat claude-report.md
