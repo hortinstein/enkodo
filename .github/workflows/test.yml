@@ -34,8 +34,44 @@ jobs:
       - name: Install Nim dependencies
         run: nimble install -y
 
-      - name: Compile JS agents
-        run: nimble buildjs -y
+      # Compile each module with a local --nimcache so we retain the C files
+      # that Nim generates before handing off to gcc/clang.
+      - name: Compile Nim → C → binary (capture nimcache)
+        run: |
+          nim c --nimcache:./nimcache/test_nim         tests/test_nim.nim
+          nim c --nimcache:./nimcache/test_foundational tests/test_foundational.nim
+
+      # Gather human-readable metadata from the compiled binaries and C intermediates.
+      - name: Collect compiled artifacts
+        run: |
+          mkdir -p artifacts
+
+          # Binary section sizes (text / data / bss)
+          size tests/test_nim tests/test_foundational \
+            > artifacts/binary_sizes.txt 2>&1 || true
+
+          # Defined symbols (demangled), excluding noise like weak/undefined
+          nm --demangle --defined-only tests/test_nim \
+            | grep -v ' [aUw] ' > artifacts/test_nim_symbols.txt 2>&1 || true
+          nm --demangle --defined-only tests/test_foundational \
+            | grep -v ' [aUw] ' > artifacts/test_foundational_symbols.txt 2>&1 || true
+
+          # Dynamic library dependencies
+          readelf -d tests/test_nim > artifacts/test_nim_dynamic.txt 2>&1 || true
+
+          # Line-count summary of every C file Nim generated
+          find nimcache -name '*.c' | sort \
+            | xargs wc -l 2>/dev/null > artifacts/c_file_sizes.txt || true
+
+          # Copy only the project-module C files (Nim names them @m<module>.nim.c).
+          # The stdlib glue files are excluded — they're noise for this report.
+          find nimcache -name '@m*.c' | sort | while read f; do
+            base=$(basename "$f")
+            case "$base" in
+              @menkodo*|@mserialize*|@mtypes*|@mtest*|@mmonocypher*)
+                cp "$f" artifacts/ ;;
+            esac
+          done
 
       - uses: actions/setup-node@v4
         with:
@@ -44,41 +80,71 @@ jobs:
       - name: Install Claude Code
         run: npm install -g @anthropic-ai/claude-code
 
-      - name: Generate agent report
+      - name: Generate report with Claude
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          claude -p "Review the following compiled JavaScript agents produced by the enkodo cryptographic library (Nim source transpiled to JS via the nim js backend).
+          # Build @-prefixed file refs for every project C file captured above
+          C_FILE_REFS=$(find artifacts -name '*.c' | sort | sed 's|^|@|' | tr '\n' ' ')
 
+          claude -p "You are reviewing compiled artifacts from the enkodo cryptographic library.
+          Enkodo is a Nim library implementing X25519 key exchange and ChaCha20-Poly1305
+          AEAD via Monocypher. The Nim compiler transpiles source to C, then gcc/clang
+          compiles that C to native ELF binaries.
+
+          ## Nim source
+          @src/enkodo.nim
           @src/enkodo/serialize.nim
           @src/enkodo/types.nim
-          @typescript/serialize.js
-          @node/serialize.js
 
-          Generate a structured markdown report with these sections:
+          ## C intermediate artifacts (project modules only, from nimcache)
+          ${C_FILE_REFS:-No project C files were captured — see artifacts/c_file_sizes.txt for the full list.}
 
-          ## Compilation Summary
-          Describe what each compiled agent does and how it maps to the Nim source.
+          ## C file line-count summary (all nimcache files)
+          @artifacts/c_file_sizes.txt
 
-          ## Code Quality
-          Assess structure, naming, and correctness in both the source and compiled output.
+          ## Compiled binary symbol table — test_nim
+          @artifacts/test_nim_symbols.txt
 
-          ## Cross-Platform Consistency
-          Compare typescript/serialize.js and node/serialize.js — are the exports and behaviour equivalent?
+          ## Compiled binary symbol table — test_foundational
+          @artifacts/test_foundational_symbols.txt
+
+          ## Binary sizes (text / data / bss)
+          @artifacts/binary_sizes.txt
+
+          ## Dynamic library dependencies (test_nim)
+          @artifacts/test_nim_dynamic.txt
+
+          Generate a structured markdown report:
+
+          ## Overview
+          Brief description of what was compiled and the toolchain path (Nim → C → ELF).
+
+          ## C Intermediate Analysis
+          What patterns appear in the Nim-generated C? Note memory management strategy
+          (GC vs ARC/ORC), how Nim types map to C structs, and how much glue code Nim adds.
+
+          ## Binary Analysis
+          Interpret the symbol tables and section sizes. What external symbols are pulled in?
+          Are there any unexpected dependencies?
 
           ## Security Observations
-          Note any concerns in the serialization, base64 encoding, or JS interop layer.
+          Focus on anything relevant to the cryptographic operations: key handling, memory
+          zeroing after use, randomness sources, and potential information leaks in the C layer.
+
+          ## Code Quality
+          Assess the Nim source and how cleanly it maps through the C layer.
 
           ## Recommendations
           Concrete, actionable improvements." \
-          --output-format text > claude-report.md
+          --output-format text > artifacts/claude-report.md
 
-      - name: Upload report artifact
+      - name: Upload all artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: claude-agent-report
-          path: claude-report.md
+          name: compiled-artifacts-report
+          path: artifacts/
           retention-days: 30
 
       - name: Print report
-        run: cat claude-report.md
+        run: cat artifacts/claude-report.md
